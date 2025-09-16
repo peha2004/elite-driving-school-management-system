@@ -27,6 +27,9 @@ public class Student {
             inverseJoinColumns = @JoinColumn(name = "course_id"))
     private List<Course> enrolledCourses;
 
+    public Student(String studentId) {
+        this.studentID = studentId;
+    }
 
 
 }

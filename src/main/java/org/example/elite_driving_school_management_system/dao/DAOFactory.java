@@ -1,9 +1,6 @@
 package org.example.elite_driving_school_management_system.dao;
 
-import org.example.elite_driving_school_management_system.dao.custom.impl.CourseDAOImpl;
-import org.example.elite_driving_school_management_system.dao.custom.impl.InstructorDAOImpl;
-import org.example.elite_driving_school_management_system.dao.custom.impl.StudentDAOImpl;
-import org.example.elite_driving_school_management_system.dao.custom.impl.UserDAOImpl;
+import org.example.elite_driving_school_management_system.dao.custom.impl.*;
 
 public class DAOFactory {
 
@@ -19,7 +16,8 @@ public class DAOFactory {
         USER,
         STUDENT,
         COURSE,
-        INSTRUCTOR
+        INSTRUCTOR,
+        LESSON
     }
 
     public SuperDAO getDAO(DAOType type) {
@@ -28,6 +26,7 @@ public class DAOFactory {
             case STUDENT -> new StudentDAOImpl();
             case COURSE -> new CourseDAOImpl();
             case INSTRUCTOR -> new InstructorDAOImpl();
+            case LESSON -> new LessonDAOImpl();
         };
     }
 }

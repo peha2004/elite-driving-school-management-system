@@ -28,4 +28,8 @@ public class Instructor {
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
+
+    public Instructor(String instructorId) {
+        this.instructorId = instructorId;
+    }
 }

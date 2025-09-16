@@ -1,9 +1,6 @@
 package org.example.elite_driving_school_management_system.bo;
 
-import org.example.elite_driving_school_management_system.bo.custom.impl.CourseBOImpl;
-import org.example.elite_driving_school_management_system.bo.custom.impl.InstructorBOImpl;
-import org.example.elite_driving_school_management_system.bo.custom.impl.StudentBOImpl;
-import org.example.elite_driving_school_management_system.bo.custom.impl.UserBOImpl;
+import org.example.elite_driving_school_management_system.bo.custom.impl.*;
 
 public class BOFactory {
     private static BOFactory boFactory;
@@ -18,7 +15,8 @@ public class BOFactory {
         USER,
         STUDENT,
         COURSE,
-        INSTRUCTOR
+        INSTRUCTOR,
+        LESSON
     }
 
     public SuperBO getBO(BOType type) {
@@ -27,6 +25,7 @@ public class BOFactory {
             case STUDENT -> new StudentBOImpl();
             case COURSE -> new CourseBOImpl();
             case INSTRUCTOR -> new InstructorBOImpl();
+            case LESSON -> new LessonBOImpl();
         };
     }
 }

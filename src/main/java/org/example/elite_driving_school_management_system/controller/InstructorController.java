@@ -35,7 +35,7 @@ public class InstructorController implements Initializable {
     public ComboBox <String> txtInstructorCourse;
     public TableColumn<InstructorDTO,String> columnInstructorCourse;
 
-    private final InstructorBO instructorBO =  (InstructorBO) BOFactory.getInstance().getBO(BOFactory.BOType.COURSE);
+    private final InstructorBO instructorBO =  (InstructorBO) BOFactory.getInstance().getBO(BOFactory.BOType.INSTRUCTOR);
 
 
     @Override

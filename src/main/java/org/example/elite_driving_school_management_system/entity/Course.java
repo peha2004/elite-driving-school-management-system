@@ -33,6 +33,9 @@ public class Course {
         this.description = description;
 
     }
+    public Course(String courseId) {
+        this.courseId = courseId;
+    }
 
 
 }

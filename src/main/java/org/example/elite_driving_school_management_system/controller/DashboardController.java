@@ -91,9 +91,17 @@ public class DashboardController implements Initializable {
     }
 
     public void btnInstructorsOnAction(ActionEvent actionEvent) {
+        ancHomeHide1.setVisible(false);
+        ancHomeHide2.setVisible(false);
+        ancMainContainer.setVisible(true);
+        navigateTo("/view/Instructor.fxml");
     }
 
     public void btnLessonsOnAction(ActionEvent actionEvent) {
+        ancHomeHide1.setVisible(false);
+        ancHomeHide2.setVisible(false);
+        ancMainContainer.setVisible(true);
+        navigateTo("/view/Lesson.fxml");
     }
 
     public void btnPaymentsOnAction(ActionEvent actionEvent) {
