@@ -33,13 +33,32 @@ public class StudentBOImpl implements StudentBO {
     public StudentDTO searchStudent(String id) throws Exception {
         Student student = studentDAO.search(id);
         if (student == null) return null;
-        return new StudentDTO(student.getStudentID(), student.getName(), student.getEmail(), student.getContact(), student.getRegistrationDate(), null);
+
+        List<String> courseNames = student.getEnrolledCourses() != null
+                ? student.getEnrolledCourses().stream()
+                .map(c -> c.getCourseName())
+                .collect(Collectors.toList())
+                : null;
+
+        return new StudentDTO(student.getStudentID(), student.getName(), student.getEmail(),
+                student.getContact(), student.getRegistrationDate(), courseNames);
     }
 
     @Override
     public List<StudentDTO> getAllStudents() throws Exception {
         return studentDAO.getAll().stream()
-                .map(s -> new StudentDTO(s.getStudentID(), s.getName(), s.getEmail(), s.getContact(), s.getRegistrationDate(), null))
+                .map(s -> new StudentDTO(
+                        s.getStudentID(),
+                        s.getName(),
+                        s.getEmail(),
+                        s.getContact(),
+                        s.getRegistrationDate(),
+                        s.getEnrolledCourses() != null
+                                ? s.getEnrolledCourses().stream()
+                                .map(c -> c.getCourseName())
+                                .collect(Collectors.toList())
+                                : null
+                ))
                 .collect(Collectors.toList());
     }
 

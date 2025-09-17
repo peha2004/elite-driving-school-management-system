@@ -22,7 +22,7 @@ public class Student {
     private String contact;
     private LocalDate registrationDate;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "student_course",joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))
     private List<Course> enrolledCourses;
@@ -30,6 +30,5 @@ public class Student {
     public Student(String studentId) {
         this.studentID = studentId;
     }
-
 
 }

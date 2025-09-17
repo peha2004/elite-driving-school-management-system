@@ -19,16 +19,16 @@ public class PaymentDTO {
 
     }
     public String getPaymentId() {return paymentId;}
-    public String setPaymentId(String paymentId) {return paymentId;}
+    public String setPaymentId(String paymentId) {this.paymentId = paymentId; return paymentId;}
     public String getCourseId() {return courseId;}
-    public String setCourseId(String courseId) {return courseId;}
+    public String setCourseId(String courseId) {this.courseId= courseId;return courseId;}
     public double getAmount() {return amount;}
-    public double setAmount(double amount) {return amount;}
+    public double setAmount(double amount) {this.amount = amount;return amount;}
     public String getPaymentDate() {return paymentDate;}
-    public String setPaymentDate(String paymentDate) {return paymentDate;}
+    public String setPaymentDate(String paymentDate) {this.paymentDate = paymentDate;return paymentDate;}
     public String getStudentId() {return studentId;}
-    public String setStudentId(String studentId) {return studentId;}
+    public String setStudentId(String studentId) {this.studentId = studentId;return studentId;}
     public String getStatus() {return status;}
-    public String setStatus(String status) {return status;}
+    public String setStatus(String status) {this.status = status; return status;}
 
 }

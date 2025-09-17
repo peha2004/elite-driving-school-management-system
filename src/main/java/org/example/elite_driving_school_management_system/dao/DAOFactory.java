@@ -17,7 +17,8 @@ public class DAOFactory {
         STUDENT,
         COURSE,
         INSTRUCTOR,
-        LESSON
+        LESSON,
+        PAYMENT
     }
 
     public SuperDAO getDAO(DAOType type) {
@@ -27,6 +28,7 @@ public class DAOFactory {
             case COURSE -> new CourseDAOImpl();
             case INSTRUCTOR -> new InstructorDAOImpl();
             case LESSON -> new LessonDAOImpl();
+            case PAYMENT -> new PaymentDAOImpl();
         };
     }
 }

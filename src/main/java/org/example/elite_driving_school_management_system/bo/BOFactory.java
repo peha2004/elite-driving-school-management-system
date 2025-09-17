@@ -16,7 +16,8 @@ public class BOFactory {
         STUDENT,
         COURSE,
         INSTRUCTOR,
-        LESSON
+        LESSON,
+        PAYMENT
     }
 
     public SuperBO getBO(BOType type) {
@@ -26,6 +27,7 @@ public class BOFactory {
             case COURSE -> new CourseBOImpl();
             case INSTRUCTOR -> new InstructorBOImpl();
             case LESSON -> new LessonBOImpl();
+            case PAYMENT -> new PaymentBOImpl();
         };
     }
 }

@@ -18,8 +18,11 @@ public class CourseDTO {
         this.fee = fee;
         this.description = description;
         this.instructorIds = instructorIds;
-
     }
+    public CourseDTO(String courseId) {
+        this.courseId = courseId;
+    }
+
     public String getCourseId() {return courseId;}
     public String getCourseName() {return courseName;}
     public String getDuration() {return duration;}

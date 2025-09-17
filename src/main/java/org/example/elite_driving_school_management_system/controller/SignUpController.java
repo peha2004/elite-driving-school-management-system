@@ -2,6 +2,7 @@ package org.example.elite_driving_school_management_system.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -18,9 +19,11 @@ import org.example.elite_driving_school_management_system.entity.User;
 import org.example.elite_driving_school_management_system.util.PasswordUtils;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.UUID;
 
-public class SignUpController {
+public class SignUpController implements Initializable {
     public TextField txtuserName;
     public PasswordField txtpassword;
     public ChoiceBox choiceRole;
@@ -87,6 +90,11 @@ public class SignUpController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
 }

@@ -12,10 +12,10 @@ public class StudentDTO {
     private String email;
     private String contact;
     private LocalDate registrationDate;
-    private List<CourseDTO> enrolledCourses;
+    private List<String> enrolledCourses;
 
 
-    public StudentDTO(String studentID, String name, String email, String contact, LocalDate registrationDate,List<CourseDTO> enrolledCourses) {
+    public StudentDTO(String studentID, String name, String email, String contact, LocalDate registrationDate,List<String> enrolledCourses) {
        this.studentID = studentID;
        this.name = name;
        this.email = email;
@@ -23,14 +23,16 @@ public class StudentDTO {
        this.registrationDate = registrationDate;
        this.enrolledCourses = enrolledCourses;
 
-
-
     }
+    public StudentDTO(String studentID) {
+        this.studentID = studentID;
+    }
+
        public String getStudentID() {return studentID;}
     public String getName() {return name;}
     public String getEmail() {return email;}
     public String getContact() {return contact;}
     public LocalDate getRegistrationDate() {return registrationDate;}
-    public List<CourseDTO> getEnrolledCourses() {return enrolledCourses;}
+    public List<String> getEnrolledCourses() {return enrolledCourses;}
 
 }

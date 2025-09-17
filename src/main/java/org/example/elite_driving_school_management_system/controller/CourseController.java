@@ -25,14 +25,14 @@ public class CourseController implements Initializable {
     public TextField txtCourseFee;
     public TextField txtCourseDescription;
     public ComboBox <String>txtCourseInstructor;
-    public TableView tableCourse;
-    public TableColumn columnCourseId;
-    public TableColumn columnCourseName;
-    public TableColumn columnCourseDuration;
-    public TableColumn columnCourseFee;
-    public TableColumn columnCourseDescription;
-    public TableColumn columnCourseInstructor;
-    public TableColumn columnCourseEnrollmentCount;
+    public TableView<CourseDTO> tableCourse;
+    public TableColumn<CourseDTO,String> columnCourseId;
+    public TableColumn<CourseDTO,String> columnCourseName;
+    public TableColumn<CourseDTO,String> columnCourseDuration;
+    public TableColumn<CourseDTO,String> columnCourseFee;
+    public TableColumn<CourseDTO,String> columnCourseDescription;
+    public TableColumn<CourseDTO,String> columnCourseInstructor;
+    public TableColumn<CourseDTO,String> columnCourseEnrollmentCount;
     public Button btnViewEnrolledStudents;
 
     private final CourseBO courseBO = (CourseBO) BOFactory.getInstance().getBO(BOFactory.BOType.COURSE);

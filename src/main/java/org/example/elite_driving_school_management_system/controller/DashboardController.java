@@ -105,6 +105,11 @@ public class DashboardController implements Initializable {
     }
 
     public void btnPaymentsOnAction(ActionEvent actionEvent) {
+        ancHomeHide1.setVisible(false);
+        ancHomeHide2.setVisible(false);
+        ancMainContainer.setVisible(true);
+        navigateTo("/view/payment.fxml");
+
     }
 
     public void btnUsersOnAction(ActionEvent actionEvent) {

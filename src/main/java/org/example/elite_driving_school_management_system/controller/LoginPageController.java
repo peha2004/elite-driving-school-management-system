@@ -3,6 +3,7 @@ package org.example.elite_driving_school_management_system.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -17,8 +18,10 @@ import org.example.elite_driving_school_management_system.dto.UserDTO;
 import org.example.elite_driving_school_management_system.util.PasswordUtils;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-    public class LoginPageController {
+public class LoginPageController implements Initializable {
         public TextField userName;
         @FXML
     private PasswordField password;
@@ -65,5 +68,10 @@ import java.io.IOException;
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
     }
 }
