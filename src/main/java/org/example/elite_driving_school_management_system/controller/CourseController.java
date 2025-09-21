@@ -45,7 +45,8 @@ public class CourseController implements Initializable {
                     txtCourseDuration.getText(),
                     Double.parseDouble(txtCourseFee.getText()),
                     txtCourseDescription.getText(),
-                    Collections.singletonList(txtCourseInstructor.getValue())
+                    Collections.singletonList(txtCourseInstructor.getValue()),
+                    0
             );
             if (courseBO.saveCourse(dto)) {
                 showAlert("Course Added Successfully!");
@@ -67,7 +68,8 @@ public class CourseController implements Initializable {
                     txtCourseDuration.getText(),
                     Double.parseDouble(txtCourseFee.getText()),
                     txtCourseDescription.getText(),
-                    Collections.singletonList(txtCourseInstructor.getValue())
+                    Collections.singletonList(txtCourseInstructor.getValue()),
+                    0
             );
             if (courseBO.updateCourse(dto)) {
                 showAlert("Course Updated Successfully!");
@@ -108,7 +110,16 @@ public class CourseController implements Initializable {
         columnCourseDuration.setCellValueFactory(new PropertyValueFactory<>("duration"));
         columnCourseFee.setCellValueFactory(new PropertyValueFactory<>("fee"));
         columnCourseDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
-        columnCourseInstructor.setCellValueFactory(new PropertyValueFactory<>("instructorId"));
+//        columnCourseInstructor.setCellValueFactory(new PropertyValueFactory<>("instructorId"));
+
+        columnCourseInstructor.setCellValueFactory(cellData ->
+                new javafx.beans.property.SimpleStringProperty(
+                        cellData.getValue().getInstructorIds() != null ?
+                                String.join(", ", cellData.getValue().getInstructorIds()) : ""
+                )
+        );
+
+        columnCourseEnrollmentCount.setCellValueFactory(new PropertyValueFactory<>("enrollmentCount"));
 
         loadAllCourses();
         generateId();

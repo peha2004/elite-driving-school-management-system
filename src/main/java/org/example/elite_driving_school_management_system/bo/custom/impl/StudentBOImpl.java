@@ -2,8 +2,10 @@ package org.example.elite_driving_school_management_system.bo.custom.impl;
 
 import org.example.elite_driving_school_management_system.bo.custom.StudentBO;
 import org.example.elite_driving_school_management_system.dao.DAOFactory;
+import org.example.elite_driving_school_management_system.dao.custom.CourseDAO;
 import org.example.elite_driving_school_management_system.dao.custom.StudentDAO;
 import org.example.elite_driving_school_management_system.dto.StudentDTO;
+import org.example.elite_driving_school_management_system.entity.Course;
 import org.example.elite_driving_school_management_system.entity.Student;
 
 import java.util.List;
@@ -12,15 +14,58 @@ import java.util.stream.Collectors;
 public class StudentBOImpl implements StudentBO {
 
     private StudentDAO studentDAO = (StudentDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.STUDENT);
+    private CourseDAO courseDAO = (CourseDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.COURSE);
     @Override
     public boolean saveStudent(StudentDTO dto) throws Exception {
-        Student student = new Student(dto.getStudentID(), dto.getName(), dto.getEmail(), dto.getContact(), dto.getRegistrationDate(), null);
+        List<Course> courses = null;
+        if (dto.getEnrolledCourses() != null && !dto.getEnrolledCourses().isEmpty()) {
+            courses = dto.getEnrolledCourses().stream()
+                    .map(name -> {
+                        try {
+                            return courseDAO.searchByName(name);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    })
+                    .collect(Collectors.toList());
+        }
+
+        Student student = new Student(
+                dto.getStudentID(),
+                dto.getName(),
+                dto.getEmail(),
+                dto.getContact(),
+                dto.getRegistrationDate(),
+                courses
+        );
+
         return studentDAO.save(student);
     }
 
     @Override
     public boolean updateStudent(StudentDTO dto) throws Exception {
-        Student student = new Student(dto.getStudentID(), dto.getName(), dto.getEmail(), dto.getContact(), dto.getRegistrationDate(), null);
+        List<Course> courses = null;
+        if (dto.getEnrolledCourses() != null && !dto.getEnrolledCourses().isEmpty()) {
+            courses = dto.getEnrolledCourses().stream()
+                    .map(name -> {
+                        try {
+                            return courseDAO.searchByName(name);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    })
+                    .collect(Collectors.toList());
+        }
+
+        Student student = new Student(
+                dto.getStudentID(),
+                dto.getName(),
+                dto.getEmail(),
+                dto.getContact(),
+                dto.getRegistrationDate(),
+                courses
+        );
+
         return studentDAO.update(student);
     }
 

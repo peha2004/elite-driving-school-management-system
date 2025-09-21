@@ -9,15 +9,19 @@ public class CourseDTO {
     private double fee;
     private String description;
     private List<String> instructorIds;
+    private int enrollmentCount;
 
 
-    public CourseDTO(String courseId, String courseName, String duration, double fee, String description, List<String> instructorIds) {
+    public CourseDTO(String courseId, String courseName, String duration, double fee, String description, List<String> instructorIds,int enrollmentCount) {
         this.courseId = courseId;
         this.courseName = courseName;
         this.duration = duration;
         this.fee = fee;
         this.description = description;
         this.instructorIds = instructorIds;
+        this.enrollmentCount = enrollmentCount;
+
+
     }
     public CourseDTO(String courseId) {
         this.courseId = courseId;
@@ -29,6 +33,7 @@ public class CourseDTO {
     public double getFee() {return fee;}
     public String getDescription() {return description;}
     public List<String> getInstructorIds() {return instructorIds;}
+    public int getEnrollmentCount() {return enrollmentCount;}
 
 
 }

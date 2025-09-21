@@ -36,7 +36,7 @@ public class InstructorController implements Initializable {
     public TableColumn<InstructorDTO,String> columnInstructorCourse;
 
     private final InstructorBO instructorBO =  (InstructorBO) BOFactory.getInstance().getBO(BOFactory.BOType.INSTRUCTOR);
-
+    private final CourseBO courseBO = (CourseBO) BOFactory.getInstance().getBO(BOFactory.BOType.COURSE);
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -48,9 +48,9 @@ public class InstructorController implements Initializable {
         columnInstructorCourse.setCellValueFactory(new PropertyValueFactory<>("courseId"));
 
         txtInstructorAvailability.setItems(FXCollections.observableArrayList("Available", "On Leave", "Busy"));
-        txtInstructorCourse.setItems(FXCollections.observableArrayList("C001", "C002", "C003"));
-
+        loadCourseIds();
         loadAllInstructors();
+        txtInstructorID.setText(instructorBO.generateInstructorId());
         tableInstructor.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 fillForm(newVal);
@@ -85,6 +85,7 @@ public class InstructorController implements Initializable {
             if (instructorBO.saveInstructor(dto)) {
                 showAlert("Success", "Instructor added successfully!", Alert.AlertType.INFORMATION);
                 clearForm();
+                txtInstructorID.setText(instructorBO.generateInstructorId());
                 loadAllInstructors();
             }
         } catch (Exception e) {
@@ -158,8 +159,17 @@ public class InstructorController implements Initializable {
 
         return true;
     }
+    private void loadCourseIds() {
+        try {
+            List<String> courseIds = courseBO.getAllCourseIds();
+            txtInstructorCourse.setItems(FXCollections.observableArrayList(courseIds));
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to load courses: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
     private void clearForm() {
-        txtInstructorID.clear();
+//        txtInstructorID.clear();
         txtInstructorName.clear();
         txtInstructorEmail.clear();
         txtInstructorContact.clear();

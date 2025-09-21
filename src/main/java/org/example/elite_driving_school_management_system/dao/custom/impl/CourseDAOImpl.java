@@ -29,6 +29,30 @@ public class CourseDAOImpl implements CourseDAO {
     }
 
     @Override
+    public Course searchByName(String name) throws Exception {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Course course = session.createQuery(
+                        "FROM Course c WHERE c.courseName = :name", Course.class)
+                .setParameter("name", name)
+                .uniqueResult();
+        session.close();
+        return course;
+    }
+
+    @Override
+    public List<Object[]> getAllWithStudentCount() throws Exception {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        List<Object[]> list = session.createQuery(
+                "SELECT c, COUNT(s) " +
+                        "FROM Course c " +
+                        "LEFT JOIN c.students s " +
+                        "GROUP BY c", Object[].class
+        ).list();
+        session.close();
+        return list;
+    }
+
+    @Override
     public boolean save(Course entity) throws Exception {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
@@ -71,8 +95,11 @@ public class CourseDAOImpl implements CourseDAO {
     }
 
     @Override
-    public Course search(String s) throws Exception {
-        return null;
+    public Course search(String id) throws Exception {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Course course = session.get(Course.class, id);
+        session.close();
+        return course;
     }
 
     @Override
@@ -83,5 +110,7 @@ public class CourseDAOImpl implements CourseDAO {
         ).list();
         session.close();
         return list;
+
+
     }
 }

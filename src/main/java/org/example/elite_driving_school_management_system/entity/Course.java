@@ -24,8 +24,7 @@ public class Course {
     @ManyToMany(mappedBy = "enrolledCourses")
     private List<Student> students;
 
-    public Course(String courseId, String courseName, String duration,
-                  double fee, String description) {
+    public Course(String courseId, String courseName, String duration, double fee, String description) {
         this.courseId = courseId;
         this.courseName = courseName;
         this.duration = duration;

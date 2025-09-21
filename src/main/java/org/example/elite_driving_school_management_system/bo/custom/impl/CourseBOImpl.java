@@ -66,6 +66,8 @@ public class CourseBOImpl implements CourseBO {
     public List<CourseDTO> getAllCourses() throws Exception {
         List<Course> courses = courseDAO.getAll();
         List<CourseDTO> dtos = new ArrayList<>();
+
+
         for (Course c : courses) {
             List<String> instructorIds = null;
             if (c.getInstructors() != null && !c.getInstructors().isEmpty()) {
@@ -73,14 +75,23 @@ public class CourseBOImpl implements CourseBO {
                         .map(Instructor::getInstructorId)
                         .collect(Collectors.toList());
             }
+            int enrollmentCount = 0;
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            enrollmentCount = ((Long) session.createQuery(
+                            "SELECT COUNT(s) FROM Course c JOIN c.students s WHERE c.courseId = :id")
+                    .setParameter("id", c.getCourseId())
+                    .uniqueResult()).intValue();
+            session.close();
             dtos.add(new CourseDTO(
                     c.getCourseId(),
                     c.getCourseName(),
                     c.getDuration(),
                     c.getFee(),
                     c.getDescription(),
-                    instructorIds
+                    instructorIds,
+                    enrollmentCount
             ));
+
         }
         return dtos;
     }
@@ -88,6 +99,16 @@ public class CourseBOImpl implements CourseBO {
     @Override
     public String generateNewId() throws Exception {
         return courseDAO.generateNewId();
+    }
+
+    @Override
+    public List<String> getAllCourseIds() throws Exception {
+        List<Course> courses = courseDAO.getAll();
+        List<String> ids = new ArrayList<>();
+        for (Course c : courses) {
+            ids.add(c.getCourseId());
+        }
+        return ids;
     }
 
 

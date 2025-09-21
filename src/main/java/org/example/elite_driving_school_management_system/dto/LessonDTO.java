@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class LessonDTO {
     private String lessonId;
     private LocalDate lessonDate;
-    private String lessonTime;  // HH:mm:ss format
+    private String lessonTime;
     private int duration;
     private String courseId;
     private String studentId;

@@ -5,7 +5,7 @@ import org.example.elite_driving_school_management_system.dto.StudentDTO;
 
 import java.util.List;
 
-public interface StudentBO extends SuperBO {
+    public interface StudentBO extends SuperBO {
 
     boolean saveStudent(StudentDTO dto) throws Exception;
     boolean updateStudent(StudentDTO dto) throws Exception;

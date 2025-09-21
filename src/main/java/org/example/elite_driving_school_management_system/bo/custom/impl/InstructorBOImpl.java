@@ -16,6 +16,22 @@ import java.util.List;
 
 public class InstructorBOImpl implements InstructorBO {
     private final InstructorDAO instructorDAO = (InstructorDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.INSTRUCTOR);
+
+    public String generateInstructorId() {
+        try {
+            List<Instructor> allInstructors = instructorDAO.getAll();
+            if (allInstructors.isEmpty()) return "I001";
+            int maxId = allInstructors.stream()
+                    .map(i -> i.getInstructorId().substring(1))
+                    .mapToInt(Integer::parseInt)
+                    .max()
+                    .orElse(0);
+            return String.format("I%03d", maxId + 1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "I001";
+        }
+    }
     @Override
     public boolean saveInstructor(InstructorDTO dto) throws Exception {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
