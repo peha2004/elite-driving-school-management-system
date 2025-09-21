@@ -12,4 +12,8 @@ public interface LessonBO extends SuperBO {
     LessonDTO searchLesson(String id) throws Exception;
     List<LessonDTO> getAllLessons() throws Exception;
     String generateNextLessonId() throws Exception;
+
+    List<String> getAllStudentIds() throws Exception;
+    List<String> getAllCourseIds() throws Exception;
+    List<String> getAllInstructorIds() throws Exception;
 }

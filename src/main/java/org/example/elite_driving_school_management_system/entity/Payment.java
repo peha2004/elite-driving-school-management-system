@@ -18,18 +18,16 @@ public class Payment {
     private String paymentId;
 
     @ManyToOne
-    @JoinColumn(name = "courseId")
-    private Course course;
-
-    private double amount;
-    private Date paymentDate;
-
-
-    @ManyToOne
-    @JoinColumn(name = "student_id")
+    @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
+    private double totalFee;
+    private double paidAmount;
+    private double balance;
     private String status;
+
+    @Temporal(TemporalType.DATE)
+    private Date paymentDate;
 
 
 }

@@ -13,10 +13,6 @@ public interface PaymentBO extends SuperBO {
     boolean deletePayment(String id) throws Exception;
     PaymentDTO searchPayment(String id) throws Exception;
     List<PaymentDTO> getAllPayments() throws Exception;
-
     String generatePaymentId() throws Exception;
-    List<StudentDTO> getAllStudents() throws Exception;
-    List<CourseDTO> getAllCourses() throws Exception;
-    boolean updateStatus(String paymentId, String newStatus) throws Exception;
 
 }

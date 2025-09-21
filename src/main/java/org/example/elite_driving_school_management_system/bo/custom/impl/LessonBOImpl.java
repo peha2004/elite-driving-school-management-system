@@ -98,4 +98,34 @@
             }
 
         }
+
+        @Override
+        public List<String> getAllStudentIds() throws Exception {
+            List<Student> students = studentDAO.getAll();
+            List<String> ids = new ArrayList<>();
+            for (Student s : students) {
+                ids.add(s.getStudentID());
+            }
+            return ids;
+        }
+
+        @Override
+        public List<String> getAllCourseIds() throws Exception {
+            List<Course> courses = courseDAO.getAll();
+            List<String> ids = new ArrayList<>();
+            for (Course c : courses) {
+                ids.add(c.getCourseId());
+            }
+            return ids;
+        }
+
+        @Override
+        public List<String> getAllInstructorIds() throws Exception {
+            List<Instructor> instructors = instructorDAO.getAll();
+            List<String> ids = new ArrayList<>();
+            for (Instructor i : instructors) {
+                ids.add(i.getInstructorId());
+            }
+            return ids;
+        }
     }

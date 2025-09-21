@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import org.example.elite_driving_school_management_system.bo.BOFactory;
 import org.example.elite_driving_school_management_system.bo.custom.LessonBO;
 import org.example.elite_driving_school_management_system.dto.LessonDTO;
@@ -16,7 +17,6 @@ import java.util.ResourceBundle;
 
 public class LessonController implements Initializable {
     public TextField txtLessonID;
-    public TextField txtLessonDate;
     public Button btnLessonAdd;
     public Button btnLessonUpdate;
     public Button btnLessonDelete;
@@ -26,6 +26,7 @@ public class LessonController implements Initializable {
     public ComboBox<String> txtLessonCourse;
     public ComboBox<String> txtLessonInstructor;
     public TableView<LessonDTO> tableLesson;
+    public DatePicker txtLessonDate;
     public TableColumn<LessonDTO, String> columnLessonId;
     public TableColumn <LessonDTO, String>columnLessonDate;
     public TableColumn <LessonDTO, String>columnLessonTime;
@@ -36,8 +37,18 @@ public class LessonController implements Initializable {
 
     private final LessonBO lessonBO = (LessonBO) BOFactory.getInstance().getBO(BOFactory.BOType.LESSON);
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        columnLessonId.setCellValueFactory(new PropertyValueFactory<>("lessonId"));
+        columnLessonDate.setCellValueFactory(new PropertyValueFactory<>("lessonDate"));
+        columnLessonTime.setCellValueFactory(new PropertyValueFactory<>("lessonTime"));
+        columnLessonDuration.setCellValueFactory(new PropertyValueFactory<>("duration"));
+        columnLessonCourse.setCellValueFactory(new PropertyValueFactory<>("courseId"));
+        columnLessonStudent.setCellValueFactory(new PropertyValueFactory<>("studentId"));
+        columnLessonInstructor.setCellValueFactory(new PropertyValueFactory<>("instructorId"));
+
         loadAllLessons();
         generateNextLessonId();
         loadComboData();
@@ -52,9 +63,18 @@ public class LessonController implements Initializable {
         }
     }
     private void loadComboData() {
-        txtLessonStudent.setItems(FXCollections.observableArrayList("S001","S002"));
-        txtLessonCourse.setItems(FXCollections.observableArrayList("C001","C002"));
-        txtLessonInstructor.setItems(FXCollections.observableArrayList("I001","I002"));
+        try {
+            List<String> students = lessonBO.getAllStudentIds();
+            txtLessonStudent.setItems(FXCollections.observableArrayList(students));
+            List<String> courses = lessonBO.getAllCourseIds();
+            txtLessonCourse.setItems(FXCollections.observableArrayList(courses));
+
+            List<String> instructors = lessonBO.getAllInstructorIds();
+            txtLessonInstructor.setItems(FXCollections.observableArrayList(instructors));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadAllLessons() {
@@ -71,7 +91,7 @@ public class LessonController implements Initializable {
         try {
             LessonDTO dto = new LessonDTO(
                     txtLessonID.getText(),
-                    LocalDate.parse(txtLessonDate.getText()),
+                    txtLessonDate.getValue(),
                     txtLessonTime.getText(),
                     Integer.parseInt(txtLessonDuration.getText()),
                     txtLessonCourse.getValue(),
@@ -92,7 +112,7 @@ public class LessonController implements Initializable {
         try {
             LessonDTO dto = new LessonDTO(
                     txtLessonID.getText(),
-                    LocalDate.parse(txtLessonDate.getText()),
+                    txtLessonDate.getValue(),
                     txtLessonTime.getText(),
                     Integer.parseInt(txtLessonDuration.getText()),
                     txtLessonCourse.getValue(),
