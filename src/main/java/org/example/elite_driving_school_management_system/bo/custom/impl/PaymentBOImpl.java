@@ -92,4 +92,19 @@ public class PaymentBOImpl implements PaymentBO {
     public String generatePaymentId() throws Exception {
         return paymentDAO.generateId();
     }
+
+    @Override
+    public List<PaymentDTO> getPaymentsByStudent(String studentId) throws Exception {
+        return paymentDAO.getPaymentsByStudent(studentId).stream()
+                .map(p -> new PaymentDTO(
+                        p.getPaymentId(),
+                        p.getStudent().getStudentID(),
+                        p.getTotalFee(),
+                        p.getPaidAmount(),
+                        p.getBalance(),
+                        p.getStatus(),
+                        p.getPaymentDate().toString()
+                ))
+                .collect(Collectors.toList());
+    }
 }

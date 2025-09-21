@@ -13,4 +13,7 @@ import java.util.List;
     StudentDTO searchStudent(String id) throws Exception;
     List<StudentDTO> getAllStudents() throws Exception;
     String generateNewStudentId() throws Exception;
+
+        List<String> getAllStudentIds() throws Exception;
+        List<String> getEnrolledCourses(String studentId) throws Exception;
 }

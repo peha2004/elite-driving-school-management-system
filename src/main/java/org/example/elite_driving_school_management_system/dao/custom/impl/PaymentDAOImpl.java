@@ -70,4 +70,14 @@ public class PaymentDAOImpl implements PaymentDAO {
             return String.format("PAY%03d", num);
         }
     }
+
+    @Override
+    public List<Payment> getPaymentsByStudent(String studentId) throws Exception {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            String hql = "FROM Payment p WHERE p.student.studentID = :studentId ORDER BY p.paymentDate DESC";
+            return session.createQuery(hql, Payment.class)
+                    .setParameter("studentId", studentId)
+                    .list();
+        }
+    }
 }

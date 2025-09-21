@@ -111,5 +111,28 @@ public class CourseBOImpl implements CourseBO {
         return ids;
     }
 
+    @Override
+    public CourseDTO search(String id) throws Exception {
+        Course c = courseDAO.search(id);
+        if (c == null) return null;
+
+        List<String> instructorIds = null;
+        if (c.getInstructors() != null) {
+            instructorIds = c.getInstructors().stream()
+                    .map(Instructor::getInstructorId)
+                    .collect(Collectors.toList());
+        }
+
+        return new CourseDTO(
+                c.getCourseId(),
+                c.getCourseName(),
+                c.getDuration(),
+                c.getFee(),
+                c.getDescription(),
+                instructorIds,
+                0
+        );
+    }
+
 
 }

@@ -111,4 +111,22 @@ public class StudentBOImpl implements StudentBO {
     public String generateNewStudentId() throws Exception {
         return studentDAO.generateNewId();
     }
+
+    @Override
+    public List<String> getAllStudentIds() throws Exception {
+        return studentDAO.getAll().stream()
+                .map(Student::getStudentID)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> getEnrolledCourses(String studentId) throws Exception {
+        Student student = studentDAO.search(studentId);
+        if (student != null && student.getEnrolledCourses() != null) {
+            return student.getEnrolledCourses().stream()
+                    .map(Course::getCourseId)
+                    .collect(Collectors.toList());
+        }
+        return null;
+    }
 }
