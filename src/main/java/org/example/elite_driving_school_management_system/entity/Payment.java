@@ -21,9 +21,15 @@ public class Payment {
     @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
+    @Column(name = "total_fee", nullable = false)
     private double totalFee;
+
+    @Column(name = "paid_amount", nullable = false)
     private double paidAmount;
+
+    @Column(nullable = false)
     private double balance;
+
     private String status;
 
     @Temporal(TemporalType.DATE)

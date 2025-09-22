@@ -76,4 +76,15 @@ public class StudentDAOImpl implements StudentDAO {
         }
         return newId;
     }
+
+    public List<String> getEnrolledCourseIds(String studentId) throws Exception {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery(
+                            "SELECT c.courseId FROM Student s JOIN s.enrolledCourses c WHERE s.studentID = :id",
+                            String.class
+                    )
+                    .setParameter("id", studentId)
+                    .list();
+        }
+    }
 }

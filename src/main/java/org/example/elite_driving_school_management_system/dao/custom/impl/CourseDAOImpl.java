@@ -53,6 +53,18 @@ public class CourseDAOImpl implements CourseDAO {
     }
 
     @Override
+    public Course getWithInstructors(String id) throws Exception {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Course course = session.createQuery(
+                        "SELECT c FROM Course c LEFT JOIN FETCH c.instructors WHERE c.courseId = :id",
+                        Course.class)
+                .setParameter("id", id)
+                .uniqueResult();
+        session.close();
+        return course;
+    }
+
+    @Override
     public boolean save(Course entity) throws Exception {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();

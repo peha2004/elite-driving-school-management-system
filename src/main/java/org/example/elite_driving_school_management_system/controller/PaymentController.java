@@ -109,18 +109,20 @@ public class PaymentController implements Initializable {
     public void onStudentSelected(ActionEvent actionEvent) {
         try {
             String studentId = txtPaymentStudent.getValue();
-
+            System.out.println("Selected Student: " + studentId);
             List<String> courseIds = studentBO.getEnrolledCourses(studentId);
+            System.out.println("Courses: " + courseIds);
             totalFee = 0.0;
 
             for (String courseId : courseIds) {
-                CourseDTO course = courseBO.search(courseId);
+                CourseDTO course = courseBO.searchWithoutInstructors(courseId);
                 totalFee += course.getFee();
             }
 
             txtPaymentTotalFee.setText(String.valueOf(totalFee));
 
             List<PaymentDTO> payments = paymentBO.getPaymentsByStudent(studentId);
+            payments.forEach(p -> System.out.println("Payment: " + p.getPaymentId() + " Paid: " + p.getPaidAmount()));
             alreadyPaid = payments.stream().mapToDouble(PaymentDTO::getPaidAmount).sum();
 
             txtPaymentAlradyPaid.setText(String.valueOf(alreadyPaid));
@@ -165,6 +167,7 @@ public class PaymentController implements Initializable {
                 txtPaymentAlradyPaid.setText(String.valueOf(alreadyPaid));
                 txtPaymentBalance.setText(String.valueOf(balance));
                 txtPaymentStatus.setText(status);
+                loadPayments();
             }
 
         } catch (Exception e) {
@@ -216,6 +219,7 @@ public class PaymentController implements Initializable {
             columnPaymentPaidAmount.setCellValueFactory(new PropertyValueFactory<>("paidAmount"));
             columnPaymentBalance.setCellValueFactory(new PropertyValueFactory<>("balance"));
 
+            tablePayment.getSelectionModel().clearSelection();
             tablePayment.setItems(observableList);
 
         } catch (Exception e) {

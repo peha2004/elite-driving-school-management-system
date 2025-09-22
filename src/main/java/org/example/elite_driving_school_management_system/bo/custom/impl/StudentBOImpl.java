@@ -121,12 +121,6 @@ public class StudentBOImpl implements StudentBO {
 
     @Override
     public List<String> getEnrolledCourses(String studentId) throws Exception {
-        Student student = studentDAO.search(studentId);
-        if (student != null && student.getEnrolledCourses() != null) {
-            return student.getEnrolledCourses().stream()
-                    .map(Course::getCourseId)
-                    .collect(Collectors.toList());
-        }
-        return null;
+        return studentDAO.getEnrolledCourseIds(studentId);
     }
 }
