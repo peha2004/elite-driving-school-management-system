@@ -13,4 +13,5 @@ public interface UserBO extends SuperBO {
     List<UserDTO> getAllUsers() throws Exception;
     UserDTO findByUsername(String username) throws Exception;
 
+    String generateNewUserId() throws Exception;
 }
