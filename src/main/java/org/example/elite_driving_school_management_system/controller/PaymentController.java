@@ -85,11 +85,6 @@ public class PaymentController implements Initializable {
 
             txtPaymentID.setText(paymentBO.generatePaymentId());
 
-            List<StudentDTO> students = studentBO.getAllStudents();
-            for (StudentDTO s : students) {
-                txtPaymentStudent.getItems().add(s.getStudentID());
-            }
-
             loadPayments();
 
         } catch (Exception e) {
