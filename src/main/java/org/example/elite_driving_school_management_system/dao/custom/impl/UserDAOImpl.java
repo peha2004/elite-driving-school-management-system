@@ -1,9 +1,10 @@
 package org.example.elite_driving_school_management_system.dao.custom.impl;
 
 
+import org.example.elite_driving_school_management_system.config.FactoryConfiguration;
 import org.example.elite_driving_school_management_system.dao.custom.UserDAO;
 import org.example.elite_driving_school_management_system.entity.User;
-import org.example.elite_driving_school_management_system.util.HibernateUtil;
+import org.example.elite_driving_school_management_system.config.FactoryConfiguration;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -11,9 +12,10 @@ import org.hibernate.query.Query;
 import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
+    private final FactoryConfiguration factoryConfiguration = FactoryConfiguration.getInstance();
     @Override
     public User findByUsername(String username) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = factoryConfiguration.getSession();
 
         List<User> users = session.createQuery("FROM User WHERE username = :uname", User.class)
                 .setParameter("uname", username)
@@ -34,7 +36,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean save(User entity) throws Exception {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = factoryConfiguration.getSession();
         Transaction tx = session.beginTransaction();
         session.persist(entity);
         tx.commit();
@@ -44,7 +46,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean update(User entity) throws Exception {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = factoryConfiguration.getSession();
         Transaction tx = session.beginTransaction();
         session.merge(entity);
         tx.commit();
@@ -54,7 +56,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean delete(String id) throws Exception {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = factoryConfiguration.getSession();
         Transaction tx = session.beginTransaction();
         User user = session.get(User.class, id);
         if (user != null) {
@@ -69,7 +71,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User search(String id) throws Exception {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = factoryConfiguration.getSession();
         User user = session.get(User.class, id);
         session.close();
         return user;
@@ -77,7 +79,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public List<User> getAll() throws Exception {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = factoryConfiguration.getSession();
         List<User> list = session.createQuery("from User", User.class).list();
         session.close();
         return list;
