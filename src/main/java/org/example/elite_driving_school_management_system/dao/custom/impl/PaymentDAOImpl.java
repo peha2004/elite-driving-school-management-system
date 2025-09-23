@@ -2,16 +2,17 @@ package org.example.elite_driving_school_management_system.dao.custom.impl;
 
 import org.example.elite_driving_school_management_system.dao.custom.PaymentDAO;
 import org.example.elite_driving_school_management_system.entity.Payment;
-import org.example.elite_driving_school_management_system.util.HibernateUtil;
+import org.example.elite_driving_school_management_system.config.FactoryConfiguration;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.util.List;
 
 public class PaymentDAOImpl implements PaymentDAO {
+    private final FactoryConfiguration factoryConfiguration = FactoryConfiguration.getInstance();
     @Override
     public boolean save(Payment entity) throws Exception {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = factoryConfiguration.getSession();
         Transaction tx = session.beginTransaction();
         session.persist(entity);
         tx.commit();
@@ -21,7 +22,7 @@ public class PaymentDAOImpl implements PaymentDAO {
 
     @Override
     public boolean update(Payment entity) throws Exception {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = factoryConfiguration.getSession();
         Transaction tx = session.beginTransaction();
         session.merge(entity);
         tx.commit();
@@ -31,7 +32,7 @@ public class PaymentDAOImpl implements PaymentDAO {
 
     @Override
     public boolean delete(String id) throws Exception {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = factoryConfiguration.getSession();
         Transaction tx = session.beginTransaction();
         Payment payment = session.get(Payment.class, id);
         if (payment != null) {
@@ -49,7 +50,7 @@ public class PaymentDAOImpl implements PaymentDAO {
 
     @Override
     public List<Payment> getAll() throws Exception {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = factoryConfiguration.getSession();
         List<Payment> list = session.createQuery("FROM Payment", Payment.class).list();
         session.close();
         return list;
@@ -57,7 +58,7 @@ public class PaymentDAOImpl implements PaymentDAO {
 
     @Override
     public String generateId() throws Exception {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session =factoryConfiguration.getSession();
         String lastId = (String) session.createQuery("SELECT p.paymentId FROM Payment p ORDER BY p.paymentId DESC")
                 .setMaxResults(1)
                 .uniqueResult();
@@ -73,7 +74,7 @@ public class PaymentDAOImpl implements PaymentDAO {
 
     @Override
     public List<Payment> getPaymentsByStudent(String studentId) throws Exception {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = factoryConfiguration.getSession()) {
             String hql = "FROM Payment p WHERE p.student.studentID = :studentId ORDER BY p.paymentDate DESC";
             return session.createQuery(hql, Payment.class)
                     .setParameter("studentId", studentId)
