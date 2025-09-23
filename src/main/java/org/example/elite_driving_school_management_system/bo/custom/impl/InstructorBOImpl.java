@@ -8,7 +8,7 @@ import org.example.elite_driving_school_management_system.dao.custom.impl.Instru
 import org.example.elite_driving_school_management_system.dto.InstructorDTO;
 import org.example.elite_driving_school_management_system.entity.Course;
 import org.example.elite_driving_school_management_system.entity.Instructor;
-import org.example.elite_driving_school_management_system.util.HibernateUtil;
+import org.example.elite_driving_school_management_system.config.FactoryConfiguration;
 import org.hibernate.Session;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class InstructorBOImpl implements InstructorBO {
     }
     @Override
     public boolean saveInstructor(InstructorDTO dto) throws Exception {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = FactoryConfiguration.getInstance().getSession()) {
             Course course = session.get(Course.class, dto.getCourseId());
             Instructor instructor = new Instructor(
                     dto.getInstructorId(),
@@ -50,7 +50,7 @@ public class InstructorBOImpl implements InstructorBO {
 
     @Override
     public boolean updateInstructor(InstructorDTO dto) throws Exception {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = FactoryConfiguration.getInstance().getSession()) {
             Course course = session.get(Course.class, dto.getCourseId());
             Instructor instructor = new Instructor(
                     dto.getInstructorId(),
