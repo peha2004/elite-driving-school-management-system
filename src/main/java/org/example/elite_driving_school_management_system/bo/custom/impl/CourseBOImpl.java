@@ -7,7 +7,7 @@ import org.example.elite_driving_school_management_system.dto.CourseDTO;
 import org.example.elite_driving_school_management_system.dto.StudentDTO;
 import org.example.elite_driving_school_management_system.entity.Course;
 import org.example.elite_driving_school_management_system.entity.Instructor;
-import org.example.elite_driving_school_management_system.util.HibernateUtil;
+import org.example.elite_driving_school_management_system.config.FactoryConfiguration;
 import org.hibernate.Session;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class CourseBOImpl implements CourseBO {
                 dto.getFee(), dto.getDescription());
         if (dto.getInstructorIds() != null) {
             List<Instructor> instructors = new ArrayList<>();
-            Session session = HibernateUtil.getSessionFactory().openSession();
+            Session session = FactoryConfiguration.getInstance().getSession();
             for (String id : dto.getInstructorIds()) {
                 Instructor instructor = session.get(Instructor.class, id);
                 if (instructor != null) {
@@ -43,7 +43,7 @@ public class CourseBOImpl implements CourseBO {
                 dto.getFee(), dto.getDescription());
         if (dto.getInstructorIds() != null) {
             List<Instructor> instructors = new ArrayList<>();
-            Session session = HibernateUtil.getSessionFactory().openSession();
+            Session session = FactoryConfiguration.getInstance().getSession();
             for (String id : dto.getInstructorIds()) {
                 Instructor instructor = session.get(Instructor.class, id);
                 if (instructor != null) {
@@ -76,7 +76,7 @@ public class CourseBOImpl implements CourseBO {
                         .collect(Collectors.toList());
             }
             int enrollmentCount = 0;
-            Session session = HibernateUtil.getSessionFactory().openSession();
+            Session session = FactoryConfiguration.getInstance().getSession();
             enrollmentCount = ((Long) session.createQuery(
                             "SELECT COUNT(s) FROM Course c JOIN c.students s WHERE c.courseId = :id")
                     .setParameter("id", c.getCourseId())
