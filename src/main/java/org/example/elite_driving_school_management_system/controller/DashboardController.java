@@ -113,7 +113,10 @@ public class DashboardController implements Initializable {
     }
 
     public void btnUsersOnAction(ActionEvent actionEvent) {
-
+        ancHomeHide1.setVisible(false);
+        ancHomeHide2.setVisible(false);
+        ancMainContainer.setVisible(true);
+        navigateTo("/view/user.fxml");
     }
 
     public void btnLogOutOnAction(ActionEvent actionEvent) {
