@@ -1,17 +1,19 @@
 package org.example.elite_driving_school_management_system.dao.custom.impl;
 
+import org.example.elite_driving_school_management_system.config.FactoryConfiguration;
 import org.example.elite_driving_school_management_system.dao.custom.StudentDAO;
 import org.example.elite_driving_school_management_system.entity.Student;
-import org.example.elite_driving_school_management_system.util.HibernateUtil;
+import org.example.elite_driving_school_management_system.config.FactoryConfiguration;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.util.List;
 
 public class StudentDAOImpl implements StudentDAO {
+    private final FactoryConfiguration factoryConfiguration = FactoryConfiguration.getInstance();
     @Override
     public boolean save(Student entity) throws Exception {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = factoryConfiguration.getSession();
         Transaction tx = session.beginTransaction();
         session.persist(entity);
         tx.commit();
@@ -21,7 +23,7 @@ public class StudentDAOImpl implements StudentDAO {
 
     @Override
     public boolean update(Student entity) throws Exception {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = factoryConfiguration.getSession();
         Transaction tx = session.beginTransaction();
         session.merge(entity);
         tx.commit();
@@ -31,7 +33,7 @@ public class StudentDAOImpl implements StudentDAO {
 
     @Override
     public boolean delete(String id) throws Exception {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = factoryConfiguration.getSession();;
         Transaction tx = session.beginTransaction();
         Student student = session.get(Student.class, id);
         if (student != null) {
@@ -47,7 +49,7 @@ public class StudentDAOImpl implements StudentDAO {
 
     @Override
     public Student search(String id) throws Exception {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = factoryConfiguration.getSession();
         Student student = session.get(Student.class, id);
         session.close();
         return student;
@@ -55,13 +57,13 @@ public class StudentDAOImpl implements StudentDAO {
 
     @Override
     public List<Student> getAll() throws Exception {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = factoryConfiguration.getSession();
         List<Student> list = session.createQuery("from Student", Student.class).list();
         session.close();
         return list;
     }
     public String generateNewId() throws Exception {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = factoryConfiguration.getSession();
         String newId = "S001";
         try {
             String hql = "SELECT s.studentID FROM Student s ORDER BY s.studentID DESC";
@@ -78,7 +80,7 @@ public class StudentDAOImpl implements StudentDAO {
     }
 
     public List<String> getEnrolledCourseIds(String studentId) throws Exception {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session =factoryConfiguration.getSession()) {
             return session.createQuery(
                             "SELECT c.courseId FROM Student s JOIN s.enrolledCourses c WHERE s.studentID = :id",
                             String.class
