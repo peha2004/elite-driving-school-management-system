@@ -89,4 +89,12 @@ public class StudentDAOImpl implements StudentDAO {
                     .list();
         }
     }
+
+    @Override
+    public int count() throws Exception {
+        Session session = factoryConfiguration.getSession();
+        Long count = session.createQuery("SELECT COUNT(s) FROM Student s", Long.class).uniqueResult();
+        session.close();
+        return count != null ? count.intValue() : 0;
+    }
 }
