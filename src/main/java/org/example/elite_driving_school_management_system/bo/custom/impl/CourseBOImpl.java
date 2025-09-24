@@ -1,6 +1,8 @@
 package org.example.elite_driving_school_management_system.bo.custom.impl;
 
 import org.example.elite_driving_school_management_system.bo.custom.CourseBO;
+import org.example.elite_driving_school_management_system.bo.exception.DuplicateException;
+import org.example.elite_driving_school_management_system.bo.exception.NotFoundException;
 import org.example.elite_driving_school_management_system.dao.DAOFactory;
 import org.example.elite_driving_school_management_system.dao.custom.CourseDAO;
 import org.example.elite_driving_school_management_system.dto.CourseDTO;
@@ -19,47 +21,68 @@ public class CourseBOImpl implements CourseBO {
     private final CourseDAO courseDAO = (CourseDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.COURSE);
     @Override
     public boolean saveCourse(CourseDTO dto) throws Exception {
-        Course course = new Course(dto.getCourseId(), dto.getCourseName(), dto.getDuration(),
-                dto.getFee(), dto.getDescription());
-        if (dto.getInstructorIds() != null) {
-            List<Instructor> instructors = new ArrayList<>();
-            Session session = FactoryConfiguration.getInstance().getSession();
-            for (String id : dto.getInstructorIds()) {
-                Instructor instructor = session.get(Instructor.class, id);
-                if (instructor != null) {
-                    instructors.add(instructor);
-                }
-            }
-            session.close();
-            course.setInstructors(instructors);
+        if (courseDAO.search(dto.getCourseId()) != null) {
+            throw new DuplicateException("Course with ID " + dto.getCourseId() + " already exists!");
+        }
+//        Course course = new Course(dto.getCourseId(), dto.getCourseName(), dto.getDuration(),
+//                dto.getFee(), dto.getDescription());
+//        if (dto.getInstructorIds() != null) {
+//            List<Instructor> instructors = new ArrayList<>();
+//            Session session = FactoryConfiguration.getInstance().getSession();
+//            for (String id : dto.getInstructorIds()) {
+//                Instructor instructor = session.get(Instructor.class, id);
+//                if (instructor != null) {
+//                    instructors.add(instructor);
+//                    instructor.setCourse(course);
+//                }
+//            }
+//            session.close();
+//            course.setInstructors(instructors);
+        Course course = new Course(dto.getCourseId(), dto.getCourseName(),
+                dto.getDuration(), dto.getFee(), dto.getDescription());
+
+        return courseDAO.saveWithInstructors(course, dto.getInstructorIds());
         }
 
-        return courseDAO.save(course);
-    }
 
     @Override
     public boolean updateCourse(CourseDTO dto) throws Exception {
-        Course course = new Course(dto.getCourseId(), dto.getCourseName(), dto.getDuration(),
-                dto.getFee(), dto.getDescription());
-        if (dto.getInstructorIds() != null) {
-            List<Instructor> instructors = new ArrayList<>();
-            Session session = FactoryConfiguration.getInstance().getSession();
-            for (String id : dto.getInstructorIds()) {
-                Instructor instructor = session.get(Instructor.class, id);
-                if (instructor != null) {
-                    instructors.add(instructor);
-                }
-            }
-            session.close();
-            course.setInstructors(instructors);
+        Course existing = courseDAO.search(dto.getCourseId());
+        if (existing == null) {
+            throw new NotFoundException("Course with ID " + dto.getCourseId() + " does not exist!");
         }
+//        Course course = new Course(dto.getCourseId(), dto.getCourseName(), dto.getDuration(),
+//                dto.getFee(), dto.getDescription());
+//        if (dto.getInstructorIds() != null) {
+//            List<Instructor> instructors = new ArrayList<>();
+//            Session session = FactoryConfiguration.getInstance().getSession();
+//            for (String id : dto.getInstructorIds()) {
+//                Instructor instructor = session.get(Instructor.class, id);
+//                if (instructor != null) {
+//                    instructors.add(instructor);
+//                    instructor.setCourse(course);
+//                }
+//            }
+//            session.close();
+//            course.setInstructors(instructors);
+//        }
+//
+//        return courseDAO.update(course);
 
-        return courseDAO.update(course);
+        Course course = new Course(dto.getCourseId(), dto.getCourseName(),
+                dto.getDuration(), dto.getFee(), dto.getDescription());
+
+        return courseDAO.saveWithInstructors(course, dto.getInstructorIds());
     }
 
     @Override
     public boolean deleteCourse(String id) throws Exception {
+        Course existing = courseDAO.search(id);
+        if (existing == null) {
+            throw new NotFoundException("Course with ID " + id + " does not exist!");
+        }
         return courseDAO.delete(id);
+
     }
 
     @Override
@@ -160,8 +183,9 @@ public class CourseBOImpl implements CourseBO {
     @Override
     public CourseDTO searchWithoutInstructors(String id) throws Exception {
         Course c = courseDAO.search(id);
-        if (c == null) return null;
-
+        if (c == null) {
+            throw new NotFoundException("Course with ID " + id + " not found!");
+        }
         return new CourseDTO(
                 c.getCourseId(),
                 c.getCourseName(),
