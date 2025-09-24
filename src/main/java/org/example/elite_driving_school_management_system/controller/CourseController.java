@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class CourseController implements Initializable {
+    public class CourseController implements Initializable {
     public TextField txtCourseID;
     public TextField txtCourseName;
     public Button btnCourseAdd;
@@ -43,7 +43,7 @@ public class CourseController implements Initializable {
                     txtCourseID.getText(),
                     txtCourseName.getText(),
                     txtCourseDuration.getText(),
-                    Double.parseDouble(txtCourseFee.getText()),
+                    Double.parseDouble(txtCourseFee.getText().replace(",", "")),
                     txtCourseDescription.getText(),
                     Collections.singletonList(txtCourseInstructor.getValue()),
                     0
@@ -66,7 +66,7 @@ public class CourseController implements Initializable {
                     txtCourseID.getText(),
                     txtCourseName.getText(),
                     txtCourseDuration.getText(),
-                    Double.parseDouble(txtCourseFee.getText()),
+                    Double.parseDouble(txtCourseFee.getText().replace(",", "")),
                     txtCourseDescription.getText(),
                     Collections.singletonList(txtCourseInstructor.getValue()),
                     0
@@ -110,7 +110,7 @@ public class CourseController implements Initializable {
         columnCourseDuration.setCellValueFactory(new PropertyValueFactory<>("duration"));
         columnCourseFee.setCellValueFactory(new PropertyValueFactory<>("fee"));
         columnCourseDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
-//        columnCourseInstructor.setCellValueFactory(new PropertyValueFactory<>("instructorId"));
+
 
         columnCourseInstructor.setCellValueFactory(cellData ->
                 new javafx.beans.property.SimpleStringProperty(
@@ -121,9 +121,45 @@ public class CourseController implements Initializable {
 
         columnCourseEnrollmentCount.setCellValueFactory(new PropertyValueFactory<>("enrollmentCount"));
 
+        tableCourse.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                txtCourseID.setText(newSelection.getCourseId());
+                txtCourseName.setText(newSelection.getCourseName());
+                txtCourseDuration.setText(newSelection.getDuration());
+                txtCourseFee.setText(String.valueOf(newSelection.getFee()));
+                txtCourseDescription.setText(newSelection.getDescription());
+
+                if (newSelection.getInstructorIds() != null && !newSelection.getInstructorIds().isEmpty()) {
+                    txtCourseInstructor.setValue(newSelection.getInstructorIds().get(0));
+                } else {
+                    txtCourseInstructor.setValue(null);
+                }
+            }
+        });
+
         loadAllCourses();
+        loadAllInstructors();
         generateId();
     }
+
+        private void loadAllInstructors() {
+            try {
+                var instructorBO = (org.example.elite_driving_school_management_system.bo.custom.InstructorBO)
+                        BOFactory.getInstance().getBO(BOFactory.BOType.INSTRUCTOR);
+
+                List<String> instructorIds = new java.util.ArrayList<>();
+
+                for (var dto : instructorBO.getAllInstructors()) {
+                    instructorIds.add(dto.getInstructorId());
+                }
+                ObservableList<String> obList = FXCollections.observableArrayList(instructorIds);
+                txtCourseInstructor.setItems(obList);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                showAlert("Error loading instructors: " + e.getMessage());
+            }
+        }
 
     private void loadAllCourses() {
         try {
@@ -153,7 +189,8 @@ public class CourseController implements Initializable {
             return false;
         }
         try {
-            Double.parseDouble(txtCourseFee.getText());
+            String feeText = txtCourseFee.getText().replace(",", "");
+            Double.parseDouble(feeText);
         } catch (NumberFormatException e) {
             showAlert("Fee must be a valid number!");
             return false;
