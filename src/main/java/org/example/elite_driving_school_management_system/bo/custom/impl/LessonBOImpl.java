@@ -1,6 +1,9 @@
     package org.example.elite_driving_school_management_system.bo.custom.impl;
 
     import org.example.elite_driving_school_management_system.bo.custom.LessonBO;
+    import org.example.elite_driving_school_management_system.bo.exception.DuplicateException;
+    import org.example.elite_driving_school_management_system.bo.exception.InUseException;
+    import org.example.elite_driving_school_management_system.bo.exception.NotFoundException;
     import org.example.elite_driving_school_management_system.dao.DAOFactory;
     import org.example.elite_driving_school_management_system.dao.custom.CourseDAO;
     import org.example.elite_driving_school_management_system.dao.custom.InstructorDAO;
@@ -25,6 +28,10 @@
         private final InstructorDAO instructorDAO = (InstructorDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.INSTRUCTOR);
         @Override
         public boolean saveLesson(LessonDTO dto) throws Exception {
+            Lesson existing = lessonDAO.search(dto.getLessonId());
+            if (existing != null) {
+                throw new DuplicateException("Lesson with ID " + dto.getLessonId() + " already exists!");
+            }
             Lesson lesson = new Lesson();
             lesson.setLessonId(dto.getLessonId());
             lesson.setStudent(new Student(dto.getStudentId()));
@@ -38,6 +45,11 @@
 
         @Override
         public boolean updateLesson(LessonDTO dto) throws Exception {
+            Lesson existing = lessonDAO.search(dto.getLessonId());
+            if (existing == null) {
+                throw new NotFoundException("Lesson with ID " + dto.getLessonId() + " not found!");
+            }
+
             Lesson lesson = new Lesson();
             lesson.setLessonId(dto.getLessonId());
             lesson.setStudent(new Student(dto.getStudentId()));
@@ -51,13 +63,22 @@
 
         @Override
         public boolean deleteLesson(String id) throws Exception {
+            Lesson existing = lessonDAO.search(id);
+            if (existing == null) {
+                throw new NotFoundException("Lesson with ID " + id + " not found!");
+            }
+            if (existing.getStudent() != null || existing.getCourse() != null || existing.getInstructor() != null) {
+                throw new InUseException("Lesson with ID " + id + " is in use and cannot be deleted!");
+            }
             return lessonDAO.delete(id);
         }
 
         @Override
         public LessonDTO searchLesson(String id) throws Exception {
             Lesson lesson = lessonDAO.search(id);
-            if (lesson == null) return null;
+            if (lesson == null) {
+                throw new NotFoundException("Lesson with ID " + id + " not found!");
+            }
             return new LessonDTO(
                     lesson.getLessonId(),
                     lesson.getLessonDate().toLocalDateTime().toLocalDate(),
