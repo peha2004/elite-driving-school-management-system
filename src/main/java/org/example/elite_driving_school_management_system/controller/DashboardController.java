@@ -6,15 +6,19 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.AreaChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.scene.Node;
+import org.example.elite_driving_school_management_system.bo.custom.DashboardBO;
+import org.example.elite_driving_school_management_system.bo.custom.impl.DashboardBOImpl;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class DashboardController implements Initializable {
@@ -36,6 +40,14 @@ public class DashboardController implements Initializable {
     public AreaChart incomeChart;
     public AnchorPane ancMainContainer;
 
+    private final DashboardBO dashboardBO = new DashboardBOImpl();
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        loadCounts();
+        loadIncomeChart();
+    }
+
     public void setUserRole(String role) {
         if ("Admin".equalsIgnoreCase(role)) {
             btnUsers.setVisible(true);
@@ -46,6 +58,37 @@ public class DashboardController implements Initializable {
         } else {
             btnUsers.setVisible(false);
             btnPayments.setVisible(false);
+        }
+    }
+
+    private void loadCounts() {
+        try {
+            lblStudents.setText(String.valueOf(dashboardBO.getStudentCount()));
+            lblCourses.setText(String.valueOf(dashboardBO.getCourseCount()));
+            lblInstructors.setText(String.valueOf(dashboardBO.getInstructorCount()));
+            lblUsers.setText(String.valueOf(dashboardBO.getUserCount()));
+            lblTotalPayments.setText(String.valueOf(dashboardBO.getTotalPayments()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadIncomeChart() {
+        try {
+            Map<String, Double> incomeData = dashboardBO.getIncomeByDay();
+
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            series.setName("Daily Income");
+
+            for (Map.Entry<String, Double> entry : incomeData.entrySet()) {
+                series.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue()));
+            }
+
+            incomeChart.getData().clear();
+            incomeChart.getData().add(series);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -73,7 +116,10 @@ public class DashboardController implements Initializable {
     }
 
     public void btnHomeOnAction(ActionEvent actionEvent) {
-
+        ancMainContainer.getChildren().clear();
+        ancHomeHide1.setVisible(true);
+        ancHomeHide2.setVisible(true);
+//        loadDashboardData();
     }
 
     public void btnStudentsOnAction(ActionEvent actionEvent) {
@@ -131,8 +177,5 @@ public class DashboardController implements Initializable {
         }
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
 
-    }
 }
