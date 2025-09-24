@@ -163,6 +163,7 @@ public class PaymentController implements Initializable {
                 txtPaymentBalance.setText(String.valueOf(balance));
                 txtPaymentStatus.setText(status);
                 loadPayments();
+
             }
 
         } catch (Exception e) {
