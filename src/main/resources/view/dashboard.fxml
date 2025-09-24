@@ -45,27 +45,17 @@
                   <Font name="Arial Bold" size="13.0" />
                </font>
             </Button>
-            <Button fx:id="btnStudents" layoutX="34.0" layoutY="279.0" mnemonicParsing="false" onAction="#btnStudentsOnAction" prefHeight="52.0" prefWidth="177.0" style="-fx-background-color: #3A0A66; -fx-border-color: white; -fx-background-radius: 2; -fx-border-radius: 2;" styleClass="shadow" text="Manage Students" textFill="WHITE">
+            <Button fx:id="btnStudents" layoutX="32.0" layoutY="272.0" mnemonicParsing="false" onAction="#btnStudentsOnAction" prefHeight="52.0" prefWidth="177.0" style="-fx-background-color: #3A0A66; -fx-border-color: white; -fx-background-radius: 2; -fx-border-radius: 2;" styleClass="shadow" text="Manage Students" textFill="WHITE">
                <font>
                   <Font name="Arial Bold" size="13.0" />
                </font>
             </Button>
-            <Button fx:id="btnCourses" layoutX="35.0" layoutY="355.0" mnemonicParsing="false" onAction="#btnCoursesOnAction" prefHeight="52.0" prefWidth="177.0" style="-fx-background-color: #3A0A66; -fx-border-color: white; -fx-background-radius: 2; -fx-border-radius: 2;" styleClass="shadow" text="Manage Courses" textFill="WHITE">
+            <Button fx:id="btnLessons" layoutX="34.0" layoutY="349.0" mnemonicParsing="false" onAction="#btnLessonsOnAction" prefHeight="52.0" prefWidth="177.0" style="-fx-background-color: #3A0A66; -fx-border-color: white; -fx-background-radius: 2; -fx-border-radius: 2;" styleClass="shadow" text="Manage Lessons" textFill="WHITE">
                <font>
                   <Font name="Arial Bold" size="13.0" />
                </font>
             </Button>
-            <Button fx:id="btnInstructors" layoutX="35.0" layoutY="430.0" mnemonicParsing="false" onAction="#btnInstructorsOnAction" prefHeight="52.0" prefWidth="177.0" style="-fx-background-color: #3A0A66; -fx-border-color: white; -fx-background-radius: 2; -fx-border-radius: 2;" styleClass="shadow" text="Manage Instructors" textFill="WHITE">
-               <font>
-                  <Font name="Arial Bold" size="13.0" />
-               </font>
-            </Button>
-            <Button fx:id="btnLessons" layoutX="35.0" layoutY="507.0" mnemonicParsing="false" onAction="#btnLessonsOnAction" prefHeight="52.0" prefWidth="177.0" style="-fx-background-color: #3A0A66; -fx-border-color: white; -fx-background-radius: 2; -fx-border-radius: 2;" styleClass="shadow" text="Manage Lessons" textFill="WHITE">
-               <font>
-                  <Font name="Arial Bold" size="13.0" />
-               </font>
-            </Button>
-            <Button fx:id="btnPayments" layoutX="35.0" layoutY="583.0" mnemonicParsing="false" onAction="#btnPaymentsOnAction" prefHeight="52.0" prefWidth="177.0" style="-fx-background-color: #3A0A66; -fx-border-color: white; -fx-background-radius: 2; -fx-border-radius: 2;" styleClass="shadow" text="Payments" textFill="WHITE">
+            <Button fx:id="btnPayments" layoutX="34.0" layoutY="425.0" mnemonicParsing="false" onAction="#btnPaymentsOnAction" prefHeight="52.0" prefWidth="177.0" style="-fx-background-color: #3A0A66; -fx-border-color: white; -fx-background-radius: 2; -fx-border-radius: 2;" styleClass="shadow" text="Payments" textFill="WHITE">
                <font>
                   <Font name="Arial Bold" size="13.0" />
                </font>
@@ -81,6 +71,16 @@
                   <Image url="@../../../../../gymSystem_LayeredProject/src/main/resources/images/icons8-logout-50.png" />
                </image>
             </ImageView>
+            <Button fx:id="btnCourses" layoutX="34.0" layoutY="580.0" mnemonicParsing="false" onAction="#btnCoursesOnAction" prefHeight="52.0" prefWidth="177.0" style="-fx-background-color: #3A0A66; -fx-border-color: white; -fx-background-radius: 2; -fx-border-radius: 2;" styleClass="shadow" text="Manage Courses" textFill="WHITE">
+               <font>
+                  <Font name="Arial Bold" size="13.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnInstructors" layoutX="35.0" layoutY="501.0" mnemonicParsing="false" onAction="#btnInstructorsOnAction" prefHeight="52.0" prefWidth="177.0" style="-fx-background-color: #3A0A66; -fx-border-color: white; -fx-background-radius: 2; -fx-border-radius: 2;" styleClass="shadow" text="Manage Instructors" textFill="WHITE">
+               <font>
+                  <Font name="Arial Bold" size="13.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="ancHomeHide1" layoutX="246.0" prefHeight="200.0" prefWidth="1308.0">
