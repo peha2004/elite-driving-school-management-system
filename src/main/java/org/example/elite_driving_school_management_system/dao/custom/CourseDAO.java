@@ -11,4 +11,7 @@ public interface CourseDAO extends CrudDAO<Course,String> {
     List<Object[]> getAllWithStudentCount() throws Exception;
 
     Course getWithInstructors(String id) throws Exception;
+    boolean saveWithInstructors(Course course, List<String> instructorIds) throws Exception;
+
+    int count() throws Exception;
 }
