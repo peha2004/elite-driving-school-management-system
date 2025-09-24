@@ -57,4 +57,12 @@ public class InstructorDAOImpl implements InstructorDAO {
             return session.createQuery("FROM Instructor", Instructor.class).list();
         }
     }
+
+    @Override
+    public int count() throws Exception {
+        Session session = factoryConfiguration.getSession();
+        Long count = session.createQuery("SELECT COUNT(i) FROM Instructor i", Long.class).uniqueResult();
+        session.close();
+        return count != null ? count.intValue() : 0;
+    }
 }
