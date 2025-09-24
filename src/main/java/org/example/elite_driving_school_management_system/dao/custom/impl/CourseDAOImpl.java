@@ -3,9 +3,11 @@ package org.example.elite_driving_school_management_system.dao.custom.impl;
 import org.example.elite_driving_school_management_system.dao.custom.CourseDAO;
 import org.example.elite_driving_school_management_system.entity.Course;
 import org.example.elite_driving_school_management_system.config.FactoryConfiguration;
+import org.example.elite_driving_school_management_system.entity.Instructor;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CourseDAOImpl implements CourseDAO {
@@ -63,6 +65,37 @@ public class CourseDAOImpl implements CourseDAO {
                 .uniqueResult();
         session.close();
         return course;
+    }
+
+    @Override
+    public boolean saveWithInstructors(Course course, List<String> instructorIds) throws Exception {
+        Session session = factoryConfiguration.getSession();
+        Transaction tx = session.beginTransaction();
+
+        if (instructorIds != null) {
+            List<Instructor> instructors = new ArrayList<>();
+            for (String id : instructorIds) {
+                Instructor instructor = session.get(Instructor.class, id);
+                if (instructor != null) {
+                    instructors.add(instructor);
+                    instructor.setCourse(course);
+                }
+            }
+            course.setInstructors(instructors);
+        }
+
+        session.persist(course);
+        tx.commit();
+        session.close();
+        return true;
+    }
+
+    @Override
+    public int count() throws Exception {
+        Session session = factoryConfiguration.getSession();
+        Long count = session.createQuery("SELECT COUNT(c) FROM Course c", Long.class).uniqueResult();
+        session.close();
+        return count != null ? count.intValue() : 0;
     }
 
     @Override
