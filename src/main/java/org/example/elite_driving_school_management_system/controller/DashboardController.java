@@ -52,12 +52,17 @@ public class DashboardController implements Initializable {
         if ("Admin".equalsIgnoreCase(role)) {
             btnUsers.setVisible(true);
             btnPayments.setVisible(true);
+            btnCourses.setVisible(true);
+            btnInstructors.setVisible(true);
+            btnStudents.setVisible(true);
+            btnLessons.setVisible(true);
         } else if ("Receptionist".equalsIgnoreCase(role)) {
             btnUsers.setVisible(false);
+            btnCourses.setVisible(false);
+            btnInstructors.setVisible(false);
             btnPayments.setVisible(true);
-        } else {
-            btnUsers.setVisible(false);
-            btnPayments.setVisible(false);
+            btnStudents.setVisible(true);
+            btnLessons.setVisible(true);
         }
     }
 
@@ -119,7 +124,6 @@ public class DashboardController implements Initializable {
         ancMainContainer.getChildren().clear();
         ancHomeHide1.setVisible(true);
         ancHomeHide2.setVisible(true);
-//        loadDashboardData();
     }
 
     public void btnStudentsOnAction(ActionEvent actionEvent) {
