@@ -1,6 +1,9 @@
 package org.example.elite_driving_school_management_system.bo.custom.impl;
 
 import org.example.elite_driving_school_management_system.bo.custom.InstructorBO;
+import org.example.elite_driving_school_management_system.bo.exception.DuplicateException;
+import org.example.elite_driving_school_management_system.bo.exception.InUseException;
+import org.example.elite_driving_school_management_system.bo.exception.NotFoundException;
 import org.example.elite_driving_school_management_system.dao.DAOFactory;
 import org.example.elite_driving_school_management_system.dao.custom.CourseDAO;
 import org.example.elite_driving_school_management_system.dao.custom.InstructorDAO;
@@ -34,6 +37,9 @@ public class InstructorBOImpl implements InstructorBO {
     }
     @Override
     public boolean saveInstructor(InstructorDTO dto) throws Exception {
+        if (instructorDAO.search(dto.getInstructorId()) != null) {
+            throw new DuplicateException("Instructor with ID " + dto.getInstructorId() + " already exists!");
+        }
         try (Session session = FactoryConfiguration.getInstance().getSession()) {
             Course course = session.get(Course.class, dto.getCourseId());
             Instructor instructor = new Instructor(
@@ -50,23 +56,40 @@ public class InstructorBOImpl implements InstructorBO {
 
     @Override
     public boolean updateInstructor(InstructorDTO dto) throws Exception {
+        Instructor existing = instructorDAO.search(dto.getInstructorId());
+        if (existing == null) {
+            throw new NotFoundException("Instructor with ID " + dto.getInstructorId() + " not found!");
+        }
         try (Session session = FactoryConfiguration.getInstance().getSession()) {
             Course course = session.get(Course.class, dto.getCourseId());
-            Instructor instructor = new Instructor(
-                    dto.getInstructorId(),
-                    dto.getName(),
-                    dto.getEmail(),
-                    dto.getContact(),
-                    dto.getAvailability(),
-                    course
-            );
-            return instructorDAO.update(instructor);
+//            Instructor instructor = new Instructor(
+//                    dto.getInstructorId(),
+//                    dto.getName(),
+//                    dto.getEmail(),
+//                    dto.getContact(),
+//                    dto.getAvailability(),
+//                    course
+//            );
+            existing.setName(dto.getName());
+            existing.setEmail(dto.getEmail());
+            existing.setContact(dto.getContact());
+            existing.setAvailability(dto.getAvailability());
+            existing.setCourse(course);
+            return instructorDAO.update(existing);
         }
     }
 
     @Override
     public boolean deleteInstructor(String id) throws Exception {
-        return instructorDAO.delete(id);
+        Instructor existing = instructorDAO.search(id);
+        if (existing == null) {
+            throw new NotFoundException("Instructor with ID " + id + " not found!");
+        }
+        try {
+            return instructorDAO.delete(id);
+        } catch (Exception e) {
+            throw new InUseException("Instructor with ID " + id + " is in use and cannot be deleted!");
+        }
     }
 
     @Override
