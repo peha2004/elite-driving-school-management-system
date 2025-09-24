@@ -52,7 +52,22 @@ public class LessonController implements Initializable {
         loadAllLessons();
         generateNextLessonId();
         loadComboData();
+        tableLesson.setOnMouseClicked(event -> {
+            LessonDTO selected = tableLesson.getSelectionModel().getSelectedItem();
+            if (selected != null) {
+                fillForm(selected);
+            }
+        });
+    }
 
+    private void fillForm(LessonDTO dto) {
+        txtLessonID.setText(dto.getLessonId());
+        txtLessonDate.setValue(dto.getLessonDate());
+        txtLessonTime.setText(dto.getLessonTime());
+        txtLessonDuration.setText(String.valueOf(dto.getDuration()));
+        txtLessonCourse.setValue(dto.getCourseId());
+        txtLessonStudent.setValue(dto.getStudentId());
+        txtLessonInstructor.setValue(dto.getInstructorId());
     }
 
     private void generateNextLessonId() {
