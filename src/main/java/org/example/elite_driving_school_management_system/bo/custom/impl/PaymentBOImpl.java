@@ -1,6 +1,8 @@
 package org.example.elite_driving_school_management_system.bo.custom.impl;
 
 import org.example.elite_driving_school_management_system.bo.custom.PaymentBO;
+import org.example.elite_driving_school_management_system.bo.exception.InUseException;
+import org.example.elite_driving_school_management_system.bo.exception.NotFoundException;
 import org.example.elite_driving_school_management_system.dao.DAOFactory;
 import org.example.elite_driving_school_management_system.dao.custom.CourseDAO;
 import org.example.elite_driving_school_management_system.dao.custom.PaymentDAO;
@@ -53,6 +55,14 @@ public class PaymentBOImpl implements PaymentBO {
 
     @Override
     public boolean deletePayment(String id) throws Exception {
+        Payment existing = paymentDAO.search(id);
+        if (existing == null) {
+            throw new NotFoundException("Payment with ID " + id + " not found!");
+        }
+
+        if ("Completed".equalsIgnoreCase(existing.getStatus())) {
+            throw new InUseException("Payment with ID " + id + " is completed and cannot be deleted!");
+        }
         return paymentDAO.delete(id);
     }
 
