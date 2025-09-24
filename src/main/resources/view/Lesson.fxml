@@ -78,7 +78,7 @@
             <DatePicker fx:id="txtLessonDate" layoutX="118.0" layoutY="114.0" prefHeight="26.0" prefWidth="326.0" />
          </children>
       </AnchorPane>
-      <TableView fx:id="tableLesson" layoutX="545.0" layoutY="78.0" prefHeight="516.0" prefWidth="750.0" style="-fx-border-color: #1A1363;">
+      <TableView fx:id="tableLesson" layoutX="535.0" layoutY="68.0" prefHeight="516.0" prefWidth="750.0" style="-fx-border-color: #1A1363;">
          <columns>
             <TableColumn fx:id="columnLessonId" prefWidth="88.800048828125" text="Lesson ID" />
             <TableColumn fx:id="columnLessonDate" prefWidth="113.5999755859375" text="Date" />

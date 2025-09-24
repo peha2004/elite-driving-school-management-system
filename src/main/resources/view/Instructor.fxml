@@ -71,7 +71,7 @@
             <ComboBox fx:id="txtInstructorCourse" layoutX="116.0" layoutY="265.0" prefHeight="26.0" prefWidth="326.0" />
          </children>
       </AnchorPane>
-      <TableView fx:id="tableInstructor" layoutX="545.0" layoutY="78.0" prefHeight="516.0" prefWidth="750.0" style="-fx-border-color: #1A1363;">
+      <TableView fx:id="tableInstructor" layoutX="535.0" layoutY="68.0" prefHeight="516.0" prefWidth="750.0" style="-fx-border-color: #1A1363;">
          <columns>
             <TableColumn fx:id="columnInstructorId" prefWidth="88.800048828125" text="Instructor ID" />
             <TableColumn fx:id="columnInstructorName" prefWidth="113.5999755859375" text="Name" />
