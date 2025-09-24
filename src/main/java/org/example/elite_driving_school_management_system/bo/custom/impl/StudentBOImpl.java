@@ -1,6 +1,7 @@
 package org.example.elite_driving_school_management_system.bo.custom.impl;
 
 import org.example.elite_driving_school_management_system.bo.custom.StudentBO;
+import org.example.elite_driving_school_management_system.bo.exception.NotFoundException;
 import org.example.elite_driving_school_management_system.dao.DAOFactory;
 import org.example.elite_driving_school_management_system.dao.custom.CourseDAO;
 import org.example.elite_driving_school_management_system.dao.custom.StudentDAO;
@@ -77,7 +78,9 @@ public class StudentBOImpl implements StudentBO {
     @Override
     public StudentDTO searchStudent(String id) throws Exception {
         Student student = studentDAO.search(id);
-        if (student == null) return null;
+        if (student == null) {
+            throw new NotFoundException("Student with ID " + id + " not found.");
+        }
 
         List<String> courseNames = student.getEnrolledCourses() != null
                 ? student.getEnrolledCourses().stream()
