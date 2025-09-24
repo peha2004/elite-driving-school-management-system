@@ -5,8 +5,12 @@ import org.example.elite_driving_school_management_system.entity.Payment;
 import org.example.elite_driving_school_management_system.config.FactoryConfiguration;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
+import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PaymentDAOImpl implements PaymentDAO {
     private final FactoryConfiguration factoryConfiguration = FactoryConfiguration.getInstance();
@@ -81,4 +85,38 @@ public class PaymentDAOImpl implements PaymentDAO {
                     .list();
         }
     }
+
+    @Override
+    public double getTotalPayments() throws Exception {
+        try (Session session =  factoryConfiguration.getSession()) {
+            Query<Double> query = session.createQuery("SELECT SUM(p.paidAmount) FROM Payment p", Double.class);
+            Double total = query.uniqueResult();
+            return total != null ? total : 0.0;
+        }
+    }
+
+    @Override
+    public Map<String, Double> getIncomeByDay() throws Exception {
+        try (Session session = FactoryConfiguration.getInstance().getSession()) {
+            String hql = "SELECT p.paymentDate, SUM(p.paidAmount) " +
+                    "FROM Payment p " +
+                    "GROUP BY p.paymentDate " +
+                    "ORDER BY p.paymentDate";
+
+            List<Object[]> results = session.createQuery(hql, Object[].class).getResultList();
+
+            Map<String, Double> incomeByDay = new LinkedHashMap<>();
+            for (Object[] row : results) {
+
+                Date day = (Date) row[0];
+                Double total = (Double) row[1];
+
+                String formattedDay = new java.text.SimpleDateFormat("yyyy-MM-dd").format(day);
+                incomeByDay.put(formattedDay, total != null ? total : 0.0);
+            }
+            return incomeByDay;
+        }
+    }
+
+
 }
