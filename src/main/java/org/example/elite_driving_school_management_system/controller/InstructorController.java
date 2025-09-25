@@ -169,7 +169,6 @@ public class InstructorController implements Initializable {
         }
     }
     private void clearForm() {
-//        txtInstructorID.clear();
         txtInstructorName.clear();
         txtInstructorEmail.clear();
         txtInstructorContact.clear();

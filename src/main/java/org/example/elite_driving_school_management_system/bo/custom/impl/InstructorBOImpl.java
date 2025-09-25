@@ -62,14 +62,6 @@ public class InstructorBOImpl implements InstructorBO {
         }
         try (Session session = FactoryConfiguration.getInstance().getSession()) {
             Course course = session.get(Course.class, dto.getCourseId());
-//            Instructor instructor = new Instructor(
-//                    dto.getInstructorId(),
-//                    dto.getName(),
-//                    dto.getEmail(),
-//                    dto.getContact(),
-//                    dto.getAvailability(),
-//                    course
-//            );
             existing.setName(dto.getName());
             existing.setEmail(dto.getEmail());
             existing.setContact(dto.getContact());

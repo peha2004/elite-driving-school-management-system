@@ -36,6 +36,47 @@ import java.util.ResourceBundle;
     public Button btnViewEnrolledStudents;
 
     private final CourseBO courseBO = (CourseBO) BOFactory.getInstance().getBO(BOFactory.BOType.COURSE);
+
+
+        @Override
+        public void initialize(URL url, ResourceBundle resourceBundle) {
+            columnCourseId.setCellValueFactory(new PropertyValueFactory<>("courseId"));
+            columnCourseName.setCellValueFactory(new PropertyValueFactory<>("courseName"));
+            columnCourseDuration.setCellValueFactory(new PropertyValueFactory<>("duration"));
+            columnCourseFee.setCellValueFactory(new PropertyValueFactory<>("fee"));
+            columnCourseDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+
+
+            columnCourseInstructor.setCellValueFactory(cellData ->
+                    new javafx.beans.property.SimpleStringProperty(
+                            cellData.getValue().getInstructorIds() != null ?
+                                    String.join(", ", cellData.getValue().getInstructorIds()) : ""
+                    )
+            );
+
+            columnCourseEnrollmentCount.setCellValueFactory(new PropertyValueFactory<>("enrollmentCount"));
+
+            tableCourse.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+                if (newSelection != null) {
+                    txtCourseID.setText(newSelection.getCourseId());
+                    txtCourseName.setText(newSelection.getCourseName());
+                    txtCourseDuration.setText(newSelection.getDuration());
+                    txtCourseFee.setText(String.valueOf(newSelection.getFee()));
+                    txtCourseDescription.setText(newSelection.getDescription());
+
+                    if (newSelection.getInstructorIds() != null && !newSelection.getInstructorIds().isEmpty()) {
+                        txtCourseInstructor.setValue(newSelection.getInstructorIds().get(0));
+                    } else {
+                        txtCourseInstructor.setValue(null);
+                    }
+                }
+            });
+
+            loadAllCourses();
+            loadAllInstructors();
+            generateId();
+        }
+
     public void btnCourseAddOnAction(ActionEvent actionEvent) {
         if (!validateCourseForm()) return;
         try {
@@ -101,45 +142,6 @@ import java.util.ResourceBundle;
 
     private void showAlert(String message) {
         new Alert(Alert.AlertType.INFORMATION, message).show();
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        columnCourseId.setCellValueFactory(new PropertyValueFactory<>("courseId"));
-        columnCourseName.setCellValueFactory(new PropertyValueFactory<>("courseName"));
-        columnCourseDuration.setCellValueFactory(new PropertyValueFactory<>("duration"));
-        columnCourseFee.setCellValueFactory(new PropertyValueFactory<>("fee"));
-        columnCourseDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
-
-
-        columnCourseInstructor.setCellValueFactory(cellData ->
-                new javafx.beans.property.SimpleStringProperty(
-                        cellData.getValue().getInstructorIds() != null ?
-                                String.join(", ", cellData.getValue().getInstructorIds()) : ""
-                )
-        );
-
-        columnCourseEnrollmentCount.setCellValueFactory(new PropertyValueFactory<>("enrollmentCount"));
-
-        tableCourse.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                txtCourseID.setText(newSelection.getCourseId());
-                txtCourseName.setText(newSelection.getCourseName());
-                txtCourseDuration.setText(newSelection.getDuration());
-                txtCourseFee.setText(String.valueOf(newSelection.getFee()));
-                txtCourseDescription.setText(newSelection.getDescription());
-
-                if (newSelection.getInstructorIds() != null && !newSelection.getInstructorIds().isEmpty()) {
-                    txtCourseInstructor.setValue(newSelection.getInstructorIds().get(0));
-                } else {
-                    txtCourseInstructor.setValue(null);
-                }
-            }
-        });
-
-        loadAllCourses();
-        loadAllInstructors();
-        generateId();
     }
 
         private void loadAllInstructors() {

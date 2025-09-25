@@ -24,20 +24,7 @@ public class CourseBOImpl implements CourseBO {
         if (courseDAO.search(dto.getCourseId()) != null) {
             throw new DuplicateException("Course with ID " + dto.getCourseId() + " already exists!");
         }
-//        Course course = new Course(dto.getCourseId(), dto.getCourseName(), dto.getDuration(),
-//                dto.getFee(), dto.getDescription());
-//        if (dto.getInstructorIds() != null) {
-//            List<Instructor> instructors = new ArrayList<>();
-//            Session session = FactoryConfiguration.getInstance().getSession();
-//            for (String id : dto.getInstructorIds()) {
-//                Instructor instructor = session.get(Instructor.class, id);
-//                if (instructor != null) {
-//                    instructors.add(instructor);
-//                    instructor.setCourse(course);
-//                }
-//            }
-//            session.close();
-//            course.setInstructors(instructors);
+
         Course course = new Course(dto.getCourseId(), dto.getCourseName(),
                 dto.getDuration(), dto.getFee(), dto.getDescription());
 
@@ -51,23 +38,6 @@ public class CourseBOImpl implements CourseBO {
         if (existing == null) {
             throw new NotFoundException("Course with ID " + dto.getCourseId() + " does not exist!");
         }
-//        Course course = new Course(dto.getCourseId(), dto.getCourseName(), dto.getDuration(),
-//                dto.getFee(), dto.getDescription());
-//        if (dto.getInstructorIds() != null) {
-//            List<Instructor> instructors = new ArrayList<>();
-//            Session session = FactoryConfiguration.getInstance().getSession();
-//            for (String id : dto.getInstructorIds()) {
-//                Instructor instructor = session.get(Instructor.class, id);
-//                if (instructor != null) {
-//                    instructors.add(instructor);
-//                    instructor.setCourse(course);
-//                }
-//            }
-//            session.close();
-//            course.setInstructors(instructors);
-//        }
-//
-//        return courseDAO.update(course);
 
         Course course = new Course(dto.getCourseId(), dto.getCourseName(),
                 dto.getDuration(), dto.getFee(), dto.getDescription());
