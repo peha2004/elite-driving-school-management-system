@@ -71,7 +71,7 @@ public class StudentController implements Initializable {
                 txtStudentContact.setText(newSelection.getContact());
                 txtStudentDate.setText(newSelection.getRegistrationDate().toString());
 
-                txtStudentCourseList.getItems().clear();
+                txtStudentCourseList.getSelectionModel().clearSelection();
                 if (newSelection.getEnrolledCourses() != null) {
                     for (String courseName : newSelection.getEnrolledCourses()) {
                         for (int i = 0; i < txtStudentCourseList.getItems().size(); i++) {

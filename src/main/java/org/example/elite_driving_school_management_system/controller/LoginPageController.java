@@ -25,8 +25,7 @@ public class LoginPageController implements Initializable {
         public TextField userName;
         @FXML
     private PasswordField password;
-    @FXML
-    private TextField userEmail;
+
 
     private final UserBO userBO = (UserBO) BOFactory.getInstance().getBO(BOFactory.BOType.USER);
 
@@ -34,7 +33,7 @@ public class LoginPageController implements Initializable {
     void btnlogin(ActionEvent event) {
 
         try {
-            String loginInput = userName.getText();
+            String loginInput = userName.getText().trim();
             UserDTO user = userBO.findByUsername(loginInput);
             if (user != null && PasswordUtils.verifyPassword(password.getText(), user.getPassword())) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/dashboard.fxml"));
