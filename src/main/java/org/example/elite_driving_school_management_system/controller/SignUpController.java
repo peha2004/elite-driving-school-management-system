@@ -31,8 +31,9 @@ public class SignUpController implements Initializable {
 
     private final UserBO userBO = (UserBO) BOFactory.getInstance().getBO(BOFactory.BOType.USER);
 
-    public void initialize() {
-        choiceRole.getItems().addAll("Admin", "Instructor", "Student");
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        choiceRole.getItems().addAll("Admin", "Receptionist");
     }
 
     public void navbtnlogin(ActionEvent actionEvent) {
@@ -43,21 +44,18 @@ public class SignUpController implements Initializable {
             }
 
             String username = txtuserName.getText().trim();
-            String password = txtpassword.getText().trim();
-            String role = (String) choiceRole.getValue();
-
             UserDTO existingUser = userBO.findByUsername(username);
             if (existingUser != null) {
                 new Alert(Alert.AlertType.ERROR, "Username already exists!").show();
                 return;
             }
-
+            String newUserId = userBO.generateNewUserId();
             String hashedPassword = PasswordUtils.hashPassword(txtpassword.getText());
 
             UserDTO userDTO = new UserDTO(
-                    UUID.randomUUID().toString(), // unique id
+                    newUserId,
                     txtuserName.getText(),
-                    hashedPassword,
+                    txtpassword.getText(),
                     (String) choiceRole.getValue()
             );
 
@@ -93,8 +91,5 @@ public class SignUpController implements Initializable {
 
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
 
-    }
 }
