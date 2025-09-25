@@ -47,23 +47,6 @@ public class UserBOImpl implements UserBO {
     }
 
     @Override
-    public boolean deleteUser(String id) throws Exception {
-        try {
-            return userDAO.delete(id);
-        } catch (org.hibernate.exception.ConstraintViolationException e) {
-            throw new InUseException("User with ID " + id + " is linked to other records and cannot be deleted.");
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-
-    @Override
-    public UserDTO searchUser(String id) throws Exception {
-        User user = userDAO.search(id);
-        return (user != null) ? new UserDTO(user.getUserid(), user.getUsername(), user.getPassword(), user.getRole()) : null;
-    }
-
-    @Override
     public List<UserDTO> getAllUsers() throws Exception {
         return userDAO.getAll().stream()
                 .map(u -> new UserDTO(u.getUserid(), u.getUsername(),null, u.getRole()))
