@@ -38,20 +38,6 @@ public class PaymentBOImpl implements PaymentBO {
         return paymentDAO.save(payment);
     }
 
-    @Override
-    public boolean updatePayment(PaymentDTO dto) throws Exception {
-        Student student = studentDAO.search(dto.getStudentId());
-        Payment payment = new Payment(
-                dto.getPaymentId(),
-                student,
-                dto.getTotalFee(),
-                dto.getPaidAmount(),
-                dto.getBalance(),
-                dto.getStatus(),
-                Date.valueOf(dto.getPaymentDate())
-        );
-        return paymentDAO.update(payment);
-    }
 
     @Override
     public boolean deletePayment(String id) throws Exception {
@@ -64,23 +50,6 @@ public class PaymentBOImpl implements PaymentBO {
             throw new InUseException("Payment with ID " + id + " is completed and cannot be deleted!");
         }
         return paymentDAO.delete(id);
-    }
-
-    @Override
-    public PaymentDTO searchPayment(String id) throws Exception {
-        Payment p = paymentDAO.search(id);
-        if (p != null) {
-            return new PaymentDTO(
-                    p.getPaymentId(),
-                    p.getStudent().getStudentID(),
-                    p.getTotalFee(),
-                    p.getPaidAmount(),
-                    p.getBalance(),
-                    p.getStatus(),
-                    p.getPaymentDate().toString()
-            );
-        }
-        return null;
     }
 
     @Override

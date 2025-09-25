@@ -73,22 +73,6 @@
             return lessonDAO.delete(id);
         }
 
-        @Override
-        public LessonDTO searchLesson(String id) throws Exception {
-            Lesson lesson = lessonDAO.search(id);
-            if (lesson == null) {
-                throw new NotFoundException("Lesson with ID " + id + " not found!");
-            }
-            return new LessonDTO(
-                    lesson.getLessonId(),
-                    lesson.getLessonDate().toLocalDateTime().toLocalDate(),
-                    lesson.getLessonDate().toLocalDateTime().toLocalTime().toString(),
-                    lesson.getDuration(),
-                    lesson.getCourse().getCourseId(),
-                    lesson.getStudent().getStudentID(),
-                    lesson.getInstructor().getInstructorId()
-            );
-        }
 
         @Override
         public List<LessonDTO> getAllLessons() throws Exception {

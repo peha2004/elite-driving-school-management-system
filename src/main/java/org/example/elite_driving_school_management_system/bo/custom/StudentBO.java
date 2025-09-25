@@ -10,7 +10,6 @@ import java.util.List;
     boolean saveStudent(StudentDTO dto) throws Exception;
     boolean updateStudent(StudentDTO dto) throws Exception;
     boolean deleteStudent(String id) throws Exception;
-    StudentDTO searchStudent(String id) throws Exception;
     List<StudentDTO> getAllStudents() throws Exception;
     String generateNewStudentId() throws Exception;
 

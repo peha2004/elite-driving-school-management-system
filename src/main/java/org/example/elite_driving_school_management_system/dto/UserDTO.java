@@ -1,8 +1,5 @@
 package org.example.elite_driving_school_management_system.dto;
 
-
-
-
 public class UserDTO {
     private String userid;
     private String username;

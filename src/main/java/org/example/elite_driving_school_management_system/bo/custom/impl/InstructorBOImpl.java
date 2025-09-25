@@ -84,21 +84,6 @@ public class InstructorBOImpl implements InstructorBO {
         }
     }
 
-    @Override
-    public InstructorDTO searchInstructor(String id) throws Exception {
-        Instructor instructor = instructorDAO.search(id);
-        if (instructor != null) {
-            return new InstructorDTO(
-                    instructor.getInstructorId(),
-                    instructor.getName(),
-                    instructor.getEmail(),
-                    instructor.getContact(),
-                    instructor.getAvailability(),
-                    instructor.getCourse().getCourseId()
-            );
-        }
-        return null;
-    }
 
     @Override
     public List<InstructorDTO> getAllInstructors() throws Exception {

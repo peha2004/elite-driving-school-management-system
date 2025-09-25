@@ -42,30 +42,7 @@ public class CourseDAOImpl implements CourseDAO {
         return course;
     }
 
-    @Override
-    public List<Object[]> getAllWithStudentCount() throws Exception {
-        Session session = factoryConfiguration.getSession();
-        List<Object[]> list = session.createQuery(
-                "SELECT c, COUNT(s) " +
-                        "FROM Course c " +
-                        "LEFT JOIN c.students s " +
-                        "GROUP BY c", Object[].class
-        ).list();
-        session.close();
-        return list;
-    }
 
-    @Override
-    public Course getWithInstructors(String id) throws Exception {
-        Session session = factoryConfiguration.getSession();
-        Course course = session.createQuery(
-                        "SELECT c FROM Course c LEFT JOIN FETCH c.instructors WHERE c.courseId = :id",
-                        Course.class)
-                .setParameter("id", id)
-                .uniqueResult();
-        session.close();
-        return course;
-    }
 
     @Override
     public boolean saveWithInstructors(Course course, List<String> instructorIds) throws Exception {

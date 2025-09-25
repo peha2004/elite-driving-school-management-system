@@ -9,7 +9,6 @@ public interface InstructorBO extends SuperBO {
     boolean saveInstructor(InstructorDTO dto) throws Exception;
     boolean updateInstructor(InstructorDTO dto) throws Exception;
     boolean deleteInstructor(String id) throws Exception;
-    InstructorDTO searchInstructor(String id) throws Exception;
     List<InstructorDTO> getAllInstructors() throws Exception;
     String generateInstructorId();
 }

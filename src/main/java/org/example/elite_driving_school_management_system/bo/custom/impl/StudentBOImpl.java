@@ -76,23 +76,6 @@ public class StudentBOImpl implements StudentBO {
     }
 
     @Override
-    public StudentDTO searchStudent(String id) throws Exception {
-        Student student = studentDAO.search(id);
-        if (student == null) {
-            throw new NotFoundException("Student with ID " + id + " not found.");
-        }
-
-        List<String> courseNames = student.getEnrolledCourses() != null
-                ? student.getEnrolledCourses().stream()
-                .map(c -> c.getCourseName())
-                .collect(Collectors.toList())
-                : null;
-
-        return new StudentDTO(student.getStudentID(), student.getName(), student.getEmail(),
-                student.getContact(), student.getRegistrationDate(), courseNames);
-    }
-
-    @Override
     public List<StudentDTO> getAllStudents() throws Exception {
         return studentDAO.getAll().stream()
                 .map(s -> new StudentDTO(
