@@ -80,7 +80,6 @@ public class StudentController implements Initializable {
                             }
                         }
                     }
-//                    newSelection.getEnrolledCourses().forEach(c -> txtStudentCourseList.getItems().add(c.getCourseName()));
                 }
             }
         });
@@ -111,9 +110,6 @@ public class StudentController implements Initializable {
     public void btnStudentUpdateOnAction(ActionEvent actionEvent) {
         try {
             if (!validateInputs()) return;
-
-            var selectedNames = txtStudentCourseList.getSelectionModel().getSelectedItems();
-
             ArrayList<String> courseNames = new ArrayList<>(txtStudentCourseList.getSelectionModel().getSelectedItems());
 
             StudentDTO dto = new StudentDTO(
@@ -138,7 +134,6 @@ public class StudentController implements Initializable {
     public void btnStudentAddOnAction(ActionEvent actionEvent) {
         try {
             if (!validateInputs()) return;
-            var selectedNames = txtStudentCourseList.getSelectionModel().getSelectedItems();
 
             ArrayList<String> courseNames = new ArrayList<>(txtStudentCourseList.getSelectionModel().getSelectedItems());
 
@@ -175,8 +170,6 @@ public class StudentController implements Initializable {
             new Alert(Alert.AlertType.ERROR, "Failed to load courses: " + e.getMessage()).show();
         }
     }
-
-
 
 
     private boolean validateInputs() {

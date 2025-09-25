@@ -81,10 +81,8 @@ public class StudentDAOImpl implements StudentDAO {
 
     public List<String> getEnrolledCourseIds(String studentId) throws Exception {
         try (Session session =factoryConfiguration.getSession()) {
-            return session.createQuery(
-                            "SELECT c.courseId FROM Student s JOIN s.enrolledCourses c WHERE s.studentID = :id",
-                            String.class
-                    )
+            return session.createQuery("SELECT c.courseId FROM Student s JOIN s.enrolledCourses c WHERE s.studentID = :id",
+                            String.class)
                     .setParameter("id", studentId)
                     .list();
         }

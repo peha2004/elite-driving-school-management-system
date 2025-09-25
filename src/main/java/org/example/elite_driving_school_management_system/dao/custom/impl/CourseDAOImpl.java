@@ -151,8 +151,7 @@ public class CourseDAOImpl implements CourseDAO {
     @Override
     public List<Course> getAll() throws Exception {
         Session session = factoryConfiguration.getSession();
-        List<Course> list = session.createQuery(
-                "SELECT DISTINCT c FROM Course c LEFT JOIN FETCH c.instructors", Course.class
+        List<Course> list = session.createQuery("SELECT DISTINCT c FROM Course c LEFT JOIN FETCH c.instructors", Course.class
         ).list();
         session.close();
         return list;

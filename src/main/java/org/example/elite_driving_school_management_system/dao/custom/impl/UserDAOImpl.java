@@ -16,8 +16,8 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User findByUsername(String username) {
         Session session = factoryConfiguration.getSession();
-        List<User> users = session.createQuery("FROM User WHERE username = :uname", User.class)
-                .setParameter("uname", username)
+        List<User> users = session.createQuery("FROM User WHERE LOWER(username) = :uname", User.class)
+                .setParameter("uname", username.toLowerCase())
                 .getResultList();
         session.close();
 
@@ -86,8 +86,7 @@ public class UserDAOImpl implements UserDAO {
 
     public String generateNewUserId() throws Exception {
         Session session = factoryConfiguration.getSession();
-        String lastId = (String) session.createQuery(
-                        "SELECT u.userid FROM User u WHERE u.userid LIKE 'U%' ORDER BY cast(substring(u.userid, 2) as int) DESC")
+        String lastId = (String) session.createQuery("SELECT u.userid FROM User u WHERE u.userid LIKE 'U%' ORDER BY cast(substring(u.userid, 2) as int) DESC")
                 .setMaxResults(1)
                 .uniqueResult();
         session.close();
