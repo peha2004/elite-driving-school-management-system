@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="474.0" prefWidth="398.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.elite_driving_school_management_system.controller.PopUserController">
+   <children>
+      <Label layoutX="135.0" layoutY="32.0" prefHeight="18.0" prefWidth="136.0" text="User Management">
+         <font>
+            <Font name="Arial Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="48.0" layoutY="141.0" text="UserName:">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtUserName" layoutX="126.0" layoutY="134.0" prefHeight="30.0" prefWidth="250.0" promptText="UserName" style="-fx-background-color: #fff; -fx-border-width: 0 0 1px 0; -fx-border-color: #1A1363;" />
+      <Label layoutX="74.0" layoutY="242.0" text="Role:">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="txtRole" layoutX="124.0" layoutY="236.0" prefHeight="27.0" prefWidth="252.0" promptText="role" style="-fx-background-color: #fff; -fx-border-color: #2a9d8f; -fx-border-width: 0 0 1px 0;" />
+      <Label layoutX="48.0" layoutY="191.0" text="Password:">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnUserAdd" layoutX="85.0" layoutY="329.0" mnemonicParsing="false" onAction="#btnUserAddOnAction" prefHeight="51.0" prefWidth="94.0" style="-fx-background-color: #392b78; -fx-border-color: white;" text="Add" textFill="WHITE">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnUserUpdate" layoutX="230.0" layoutY="329.0" mnemonicParsing="false" onAction="#btnUserUpdateOnAction" prefHeight="51.0" prefWidth="104.0" style="-fx-background-color: #392b78; -fx-border-color: white;" text="Update" textFill="WHITE">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font>
+      </Button>
+      <PasswordField fx:id="txtPassword" layoutX="126.0" layoutY="184.0" prefHeight="30.0" prefWidth="250.0" promptText="Password" style="-fx-background-color: #fff; -fx-border-width: 0 0 1px 0; -fx-border-color: #1A1363;" />
+      <Label layoutX="65.0" layoutY="92.0" text="User ID:">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtUserId" disable="true" editable="false" layoutX="125.0" layoutY="85.0" prefHeight="30.0" prefWidth="250.0" style="-fx-background-color: #fff; -fx-border-width: 0 0 1px 0; -fx-border-color: #1A1363;" />
+   </children>
+</AnchorPane>
